@@ -1,0 +1,20 @@
+
+
+<div *ngIf="board$ | async as board"
+droppable="true"
+(dragstart)="handleDragStart($event,column)"  (dragover)="handleDragOver($event,column)" 
+(drop)="handleDrop($event,column)" (dragend)="handleDragEnd($event)">
+
+  <!--h2 class="column-header"> {{column.title}}</h2-->
+<div>
+  <input [value]="column.title" (input)="column.title = $event.target.value;" (click)="onColumnClick($event)"  class="column-header" ngClass="col-heading-{{column.color}}"/>
+    <button  (click)="onColumnButtonClick(column)"  >[+card]</button>
+     <button  (click)="onColumnButtonClickRemove(column)"  >[-column]</button>
+</div>
+    <ul class="card-list" [attr.column-id]="column.id">
+        <li *ngFor="let card of getCards(column.id,board)">
+    
+            <app-card-component [card]="card"></app-card-component>
+        </li>
+    </ul>
+</div>
