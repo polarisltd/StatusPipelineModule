@@ -1,36 +1,14 @@
 import { NgModule } from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import {MatCardModule} from '@angular/material/card';
 import { AppComponent } from './app.component';
-import { HelloComponent } from './hello.component';
-import { MatMenuModule, MatButtonModule,
-MatInputModule, MatIconModule, MatListModule, MatCheckboxModule } from '@angular/material';
-import { ColumnComponentComponent } from './column-component/column-component.component';
-import { CardComponentComponent } from './card-component/card-component.component';
-import { BoardComponentComponent } from './board-component/board-component.component';
-import {Database} from './status-pipeline-module.database'
-import {MatGridListModule} from '@angular/material/grid-list';
-import { FlexLayoutModule } from "@angular/flex-layout";
+import {TaskPipelineModule} from "./task-pipeline/task-pipeline.module";
+
+
 @NgModule({
-  imports:      [ 
-    BrowserModule, 
-    BrowserAnimationsModule,
-    FormsModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatCardModule,
-    MatInputModule,
-    MatIconModule,
-    MatListModule,
-    MatCheckboxModule,
-    MatGridListModule,
-    FlexLayoutModule
+  imports:      [
+    TaskPipelineModule
   ],
-  declarations: [ AppComponent, HelloComponent, ColumnComponentComponent, CardComponentComponent, BoardComponentComponent ],
+  declarations: [ AppComponent ],
   providers: [
-    Database
   ],
   bootstrap:    [ AppComponent ]
 })
