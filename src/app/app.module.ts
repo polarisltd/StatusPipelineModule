@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { PickerModule } from '@ctrl/ngx-emoji-mart';
-import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import {MatCardModule} from '@angular/material/card';
 import { AppComponent } from './app.component';
 import { HelloComponent } from './hello.component';
@@ -19,9 +17,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
   imports:      [ 
     BrowserModule, 
     BrowserAnimationsModule,
-    FormsModule, 
-    PickerModule, 
-    EmojiModule,
+    FormsModule,
     MatMenuModule,
     MatButtonModule,
     MatCardModule,

@@ -6,4 +6,6 @@ export class Column implements IPipelineColumn{
     title: string;
     boardId: string;
     order: number;
+    status: string;
+    color: string;
 }

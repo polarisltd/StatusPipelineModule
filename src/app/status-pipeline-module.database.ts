@@ -214,7 +214,7 @@ export class Database {
 
     this.boardInternal.cards[idxC].columnId = targetColumnId;
 
-    console.log('moving card->column ', this.boardInternal.cards[idxC]._id, ' -> ', this.boardInternal.cards[idxC].columnId)
+    console.log('moving card->column ', this.boardInternal.cards[idxC].id, ' -> ', this.boardInternal.cards[idxC].columnId)
 
     this.boardSubject$.next(this.boardInternal);
 

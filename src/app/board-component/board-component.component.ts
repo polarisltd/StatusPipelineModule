@@ -4,7 +4,7 @@ import { Card } from '../card-component/card'
 import { Column } from '../column-component/column'
 import { Database } from '../status-pipeline-module.database'
 import { Observable } from 'rxjs';
-import {IPipelineColumn, PipelineColumnElementType, IColumnElement} from '../status-pipeline-module.interface'
+import {IPipelineColumn, PipelineColumnElementType, IPipelineColumnElement} from '../status-pipeline-module.interface'
 
 
 @Component({
@@ -14,11 +14,11 @@ import {IPipelineColumn, PipelineColumnElementType, IColumnElement} from '../sta
   providers:[Database]
 })
 export class BoardComponentComponent implements OnInit {
-  @Input() columnObjects: IColumnElement [];
+  @Input() columnObjects: IPipelineColumnElement [];
   @Input() columns: IPipelineColumn [];
-  @Input() allowedTransitions: [{srcStatus:string, dstStatus:string}] = [];
-  @Output() onTransition: {src: Column, dst: Column, elem: IColumnElement};
-  @Output() onClick: IColumnElement;
+  @Input() allowedTransitions: [{srcStatus:string, dstStatus:string}] ;
+  @Output() onTransition: {src: Column, dst: Column, elem: IPipelineColumnElement};
+  @Output() onClick: IPipelineColumnElement;
   // board: Board;
   board$: Observable<Board>;
   board: Board;
