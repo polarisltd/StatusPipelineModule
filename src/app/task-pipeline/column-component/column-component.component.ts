@@ -54,28 +54,34 @@ export class ColumnComponentComponent implements OnInit {
   }
 
 
-  handleDragStart(event, card) {
+  handleDragStart(event, node) {
     // Required by Firefox (https://stackoverflow.com/questions/19055264/why-doesnt-html5-drag-and-drop-work-in-firefox)
 /*
     event.dataTransfer.setData('foo', 'bar');
     event.dataTransfer.setDragImage(this.emptyItem.nativeElement, 0, 0);
 */
-   console.log('ColumnComponent#handleDragStart',JSON.stringify(card,null,'\t')) 
+   // event.dataTransfer.setData('foo', node.id);
+   // console.log('ColumnComponent#handleDragStart',node.id)
+   // ignore as columns are not sources for drag.
   }
 
   handleDragOver(event, node) {
      event.preventDefault();
+    const dragId = event.dataTransfer.getData('foo')
+    console.log('ColumnComponent#handleDragOver ',dragId,'->',node.id)
    }
 
   
-  handleDrop(event, column) {
+  handleDrop(event, node) {
     event.preventDefault();
-    console.log('ColumnComponent#handleDrop',JSON.stringify(column,null,'\t'))
-    this.database.moveCard(this.database.dndSourceCard.id,column.id)
+    const dragId = event.dataTransfer.getData('foo')
+    console.log('ColumnComponent#handleDrop ',dragId,'->',node.id)
+    this.database.moveCard(dragId, node.id)
   }
 
   handleDragEnd(event)  {
-    console.log('ColumnComponent#handleDragEnd')
+    const dragId = event.dataTransfer.getData('foo')
+    console.log('ColumnComponent#handleDragEnd ',dragId,'->',this.column.id)
   }
 
 
