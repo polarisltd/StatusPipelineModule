@@ -51,6 +51,12 @@ export class CardComponentComponent implements OnInit {
    // Required by Firefox (https://stackoverflow.com/questions/19055264/why-doesnt-html5-drag-and-drop-work-in-firefox)
    // this.database.dndSourceCard = card;
    event.dataTransfer.setData('foo', this.card.id);
+   //
+      //
+   event.dataTransfer.setData(`id=${this.card.id}`, 'data'); // whatever data
+
+
+      //
    // event.dataTransfer.setDragImage(this.emptyItem.nativeElement, 0, 0);
       // event.dataTransfer.effectAllowed = 'move'  ;
 
@@ -60,9 +66,12 @@ export class CardComponentComponent implements OnInit {
 
   handleDragOver(event, node) {
     event.preventDefault();
-      const dragId = event.dataTransfer.getData('foo')
-      // console.log('CardComponent#handleDragOver ',dragId,'->',this.card.id)
-      // console.log('dropEffect'   ,event.dataTransfer.dropEffect)
+      // known behaviuor, dragOver did not know originating item.
+      // therefore we cheat :)
+      const sourceId = event.dataTransfer.types.find(entry => entry.includes("id="))
+      console.log('CardComponent#handleDragOver #sourceId '   , sourceId )
+
+
    }
 
   
@@ -80,12 +89,12 @@ export class CardComponentComponent implements OnInit {
 }
 
 onCardButtonClick(card){
-  console.log('onCardButtonClick' , card.id)
+  console.log('CardComponent#onCardButtonClick' , card.id)
   this.database.removeCard(card.id)
 }
 
 onCardButtonClick2(card){
-  console.log('onCardButtonClick' , card.id)
+  console.log('CardComponent#onCardButtonClick' , card.id)
   this.database.addCardRefCard(card.id)
 }
 

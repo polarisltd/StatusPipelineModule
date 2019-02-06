@@ -69,13 +69,35 @@ export class ColumnComponentComponent implements OnInit {
 
   handleDragOver(event, node) {
     event.preventDefault();
-    const dragId = event.dataTransfer.getData('foo')
+    //
+    // known behaviuor, dragOver did not know originating item.
+    // therefore we cheat :)
+    //
+    const sourceId = event.dataTransfer.types.find(entry => entry.includes("id=")).substr(3) // strip id=
+    // console.log('CardComponent#handleDragOver #sourceId '   , sourceId )
+
+
     // console.log('ColumnComponent#handleDragOver ',dragId,'->',node.id)
     // event.dataTransfer.dropEffect = 'none'  ;
     // console.log('dropEffect'   ,event.dataTransfer.dropEffect)
-    this.colorDragProtectedArea(node)
-
+    if(!this.validateDropRules(sourceId,this.column.id)) {
+      this.colorDragProtectedArea(node)
+    }
   }
+
+
+  validateDropRules(srcCardId:string,dstColumnId:string):boolean{
+
+    const srcCard = this.board.cards.find(entry => entry.id === srcCardId)
+
+    if(srcCard)
+      console.log('CardComponent#validateRules #sourceId card/col => col' ,srcCardId,'/',srcCard.columnId,' => '   ,dstColumnId    )
+    else
+      console.log('card not found ',srcCardId,' board_cards.len '  , this.board.cards.length)
+    if (!srcCard || srcCard.columnId === dstColumnId) return false;
+    else return true;
+  }
+
 
 
 
@@ -100,7 +122,8 @@ export class ColumnComponentComponent implements OnInit {
     event.preventDefault();
     const dragId = event.dataTransfer.getData('foo')
     console.log('ColumnComponent#handleDrop ',dragId,'->',node.id)
-    this.database.moveCard(dragId, node.id)
+    if(this.validateDropRules(dragId,node.id))
+       this.database.moveCard(dragId, node.id)
   }
 
   handleDragEnd(event)  {
@@ -110,12 +133,12 @@ export class ColumnComponentComponent implements OnInit {
 
 
 onColumnButtonClick(column){
-  console.log('onColumnButtonClick' , column.id)
+  console.log('ColumnComponent#onColumnButtonClick' , column.id)
   this.database.addCardRefColumn(column.id)
 }
 
 onColumnButtonClickRemove(column){
-  console.log('onColumnButtonClick' , column.id)
+  console.log('ColumnComponent#onColumnButtonClick' , column.id)
   this.database.removeColumn(column.id)
 }
 
