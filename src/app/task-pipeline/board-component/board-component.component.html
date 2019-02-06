@@ -30,7 +30,8 @@
          -->
          <app-column-component
            [column]="column"
-           (onAddCard)="addCard($event)" >
+           (onAddCard)="addCard($event)"
+           [boardSubject$]="boardSubject$">
          </app-column-component>
         </div>
     </td></tr>

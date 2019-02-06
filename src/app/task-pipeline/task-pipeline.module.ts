@@ -44,7 +44,6 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     CardComponentComponent,
     ColumnComponentComponent],
   providers: [
-    Database
   ]
 })
 export class TaskPipelineModule { }

@@ -13,8 +13,7 @@ droppable="true"
 </div>
     <ul class="card-list" [attr.column-id]="column.id">
         <li *ngFor="let card of getCards(column.id,board)">
-    
-            <app-card-component [card]="card"></app-card-component>
+            <app-card-component [card]="card" [boardSubject$]="boardSubject$"></app-card-component>
         </li>
     </ul>
 </div>

@@ -3,6 +3,8 @@ import {Component, Input, Output, OnInit, AfterViewInit, EventEmitter, ElementRe
 import { ViewChild} from '@angular/core';
 import {Database} from "../shared/status-pipeline-module.database";
 import {Card} from "../shared/card";
+import {Observable, Subject} from "rxjs";
+import {Board} from "../shared/board";
 
 @Component({
   selector: 'app-card-component',
@@ -12,22 +14,33 @@ import {Card} from "../shared/card";
 export class CardComponentComponent implements OnInit {
   @ViewChild('emptyItem') emptyItem: ElementRef;
   @Input()
+  boardSubject$: Subject<Board> // initialised and provided by board component
+  @Input()
   card: Card;
   @Output() cardUpdate: EventEmitter<Card>;
   editingCard = false;
   currentTitle: string;
   database: Database;
 
-isTitleClicked : boolean = false;
+  isTitleClicked : boolean = false;
+  board$ : Observable<Board>;
+  board : Board
 
 
-  constructor(database :Database) { 
-     this.database = database
+  constructor() {
+
   }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+        this.board$ = this.boardSubject$; //this.database.getBoardObservable()
+        this.board$.subscribe(board => {
+            console.log('ColumnComponent#ngOnInit board$.subscrive '/*, JSON.stringify(board,null,'\t')*/)
+            this.board = board
+            this.database = new Database(this.boardSubject$,this.board);
+            }
 
+        )
+    }
   onCardTitleClick(event,isInput){
   console.log('CardComponent#-> onCardTitleClick ',   this.card.title,',', isInput.elementRef)
   this.isTitleClicked = !this.isTitleClicked;
@@ -37,16 +50,7 @@ isTitleClicked : boolean = false;
 
   handleDragStart(event, card) {
     // Required by Firefox (https://stackoverflow.com/questions/19055264/why-doesnt-html5-drag-and-drop-work-in-firefox)
-/* 
 
-If this is commented out getting nice document image which is moved.
-
-*/
-
-/*
-    event.dataTransfer.setData('foo', 'bar');
-    event.dataTransfer.setDragImage(this.emptyItem.nativeElement, 0, 0);
-*/
 
 this.database.dndSourceCard = card;
 

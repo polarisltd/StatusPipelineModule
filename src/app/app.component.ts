@@ -1,70 +1,30 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import {MatSelectionList, MatCheckboxChange, MatSelectionListChange} from '@angular/material';
+import {Component, OnInit} from '@angular/core';
+import {Board} from "./task-pipeline/shared/board";
+import {Observable, Subject} from "rxjs";
+import {Database} from "./task-pipeline/shared/status-pipeline-module.database";
+import {DataSource} from "./DataSource";
 
-export interface IMessage {
-  message: string;
-  recipients: string[];
-}
 
-export enum YourEnum {
-  YourType = "Whatever"
-}
+
 
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
-  styleUrls: [ './app.component.css' ]
+  styleUrls: [ './app.component.css' ],
+  providers: [DataSource]
 })
-export class AppComponent  {
-  message = '';
-  sentMessage: IMessage;
-  caretPos: number = 0;
-  showEmojiMenu = false;
+export class AppComponent implements OnInit{
+  boardSubject$ : Subject<Board>
+  dataSource: DataSource;
 
-  contacts: string[] = ['Andi', 'Marco', 'Saja', 'Stephanie'];
-
-  @ViewChild('contactList') contactList: MatSelectionList;
-
-  YourEnum = YourEnum;
-  nodeType = YourEnum.YourType;
-
-  constructor() {}
-
-  getCaretPos($event) {
-    if ($event.selectionStart || $event.selectionStart == '0') {
-       this.caretPos = $event.selectionStart;
-    }
+  constructor(dataSource: DataSource) {
+    this.dataSource = dataSource;
   }
 
-  toggleEmojiMenu() {
-    this.showEmojiMenu = !this.showEmojiMenu;
+  ngOnInit() {
+    // this.database.setupObservable()
+    this.boardSubject$ = this.dataSource.boardSubject$
   }
 
 
-
-  toggleContactSelection(all: MatCheckboxChange, list: MatSelectionList) {
-    if (!all.checked && list.selectedOptions.selected.length === this.contacts.length) {
-      list.deselectAll();
-    } else {
-      list.selectAll();
-    }
-  }
-
-  isChecked(): boolean {
-    return this.contactList.selectedOptions.selected && this.contactList.selectedOptions.selected.length
-      && this.contactList.selectedOptions.selected.length === this.contacts.length;
-  }
-
-  isIndeterminate(): boolean {
-    return this.contactList.selectedOptions.selected && this.contactList.selectedOptions.selected.length
-      && this.contactList.selectedOptions.selected.length < this.contacts.length;
-  }
-
-  send() {
-    const msg: IMessage = {
-      message: this.message,
-      recipients: this.contactList.selectedOptions.selected.map(c => c.value)
-    }
-    this.sentMessage = msg;
-  }
 }

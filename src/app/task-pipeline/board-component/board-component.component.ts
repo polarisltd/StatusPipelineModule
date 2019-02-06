@@ -1,26 +1,33 @@
 import {Component, OnInit, Input, Output, EventEmitter, ElementRef, ChangeDetectorRef, NgZone} from '@angular/core';
-import { Observable } from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Database} from "../shared/status-pipeline-module.database";
-import {IPipelineColumn, IPipelineColumnElement} from "../shared/status-pipeline-module.interface";
+import {
+  IPipelineColumn,
+  IPipelineColumnElement,
+  IStatusChange,
+  ITransition
+} from "../shared/status-pipeline-module.interface";
 import {Column} from "../shared/column";
 import {Board} from "../shared/board";
+import {StatusPipelineShared} from "../shared/status-pipeline-shared";
 
 
 @Component({
   selector: 'dvtx-status-pipeline',
   templateUrl: './board-component.component.html',
   styleUrls: ['./board-component.component.css'],
-  providers:[Database]
+  providers:[StatusPipelineShared]
 })
 export class BoardComponentComponent implements OnInit {
-  @Input() columnObjects: IPipelineColumnElement [];
-  @Input() columns: IPipelineColumn [];
-  @Input() allowedTransitions: [{srcStatus:string, dstStatus:string}] ;
-  @Output() onTransition: {src: Column, dst: Column, elem: IPipelineColumnElement};
-  @Output() onClick: IPipelineColumnElement;
+  @Input() boardSubject$ : Subject<Board>;
+  @Input() allowedTransitions: (ITransition) => boolean ; // callback card, fromCol, toCol
+  @Output() onTransition = new EventEmitter<IStatusChange>(); // card, fromCol, toCol
+  @Output() onClickColumnTitle = new EventEmitter<IPipelineColumnElement>();
   // board: Board;
-  board$: Observable<Board>;
+  //board$: Observable<Board>;
   board: Board;
+  board$:Observable<Board>
+
 
 
   addingColumn = false;
@@ -30,15 +37,19 @@ export class BoardComponentComponent implements OnInit {
   boardWidth: number;
   columnsAdded = 0;
 
-  constructor(database: Database) { 
+  constructor(
+     statusPipelineShared: StatusPipelineShared ) {
 
-    this.board$ = database.getBoardObservable()
-    this.board$.subscribe(data => console.log('BoardComponent#constructor subscribe board$ {}'/*,JSON.stringify(data,null,'\t')*/))
+
 
   }
 
   ngOnInit() {
-
+    this.board$ = this.boardSubject$
+    this.board$.subscribe(board => {
+      console.log('BoardComponent#constructor subscribe board$ {}'/*,JSON.stringify(data,null,'\t')*/)
+      this.board = board
+    })
   }
 
   editTitle() {
