@@ -21,8 +21,8 @@ import {StatusPipelineShared} from "../shared/status-pipeline-shared";
 export class BoardComponentComponent implements OnInit {
   @Input() boardSubject$ : Subject<Board>;
   @Input() allowedTransitions: (ITransition) => boolean ; // callback card, fromCol, toCol
-  @Output() onTransition = new EventEmitter<IStatusChange>(); // card, fromCol, toCol
-  @Output() onClickColumnTitle = new EventEmitter<IPipelineColumnElement>();
+  @Input() onTransition : EventEmitter<IStatusChange>; // card, fromCol, toCol
+  @Input() onClickColumnTitle : EventEmitter<IPipelineColumn>;
   // board: Board;
   //board$: Observable<Board>;
   board: Board;

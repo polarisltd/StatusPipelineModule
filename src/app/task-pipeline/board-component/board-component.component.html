@@ -23,7 +23,9 @@
     <tr><td>
        <div class="column-spacer" fxFlex="200px"> 
          
-         <!-- 
+         <!--
+          Option to adjust:
+
           fxFlex=200px makes fixed width cards with scrollbar 
          
           fxFlex="fxShrink='5' fxGrow='5'" makes proportional sized
@@ -31,7 +33,10 @@
          <app-column-component
            [column]="column"
            (onAddCard)="addCard($event)"
-           [boardSubject$]="boardSubject$">
+           [boardSubject$]="boardSubject$"
+           [onTransition]="onTransition"
+           [onClickColumnTitle]="onClickColumnTitle"
+           >
          </app-column-component>
         </div>
     </td></tr>

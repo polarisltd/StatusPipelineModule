@@ -4,6 +4,7 @@ import {Database} from "../shared/status-pipeline-module.database";
 import {Board} from "../shared/board";
 import {Column} from "../shared/column";
 import {Card} from "../shared/card";
+import {IPipelineColumn, IPipelineColumnElement, IStatusChange} from "../shared/status-pipeline-module.interface";
 
 
 @Component({
@@ -17,7 +18,9 @@ export class ColumnComponentComponent implements OnInit {
   @Input()
   boardSubject$: Subject<Board> // initialised and provided by board component
   @Input()
-  column: Column;
+  column: Column; // column on which this item having ownership
+  @Input() onTransition : EventEmitter<IStatusChange>; // card, fromCol, toCol
+  @Input() onClickColumnTitle : EventEmitter<IPipelineColumn>;
   @Input()
   @Output()
   public onAddCard: EventEmitter<Card>;
@@ -52,6 +55,7 @@ export class ColumnComponentComponent implements OnInit {
 
   onColumnClick(event){
   console.log('ColumnComponent#-> onColumnClick ',this.column.title)
+    this.onClickColumnTitle.emit(this.column)
   }
 
 
@@ -133,7 +137,7 @@ export class ColumnComponentComponent implements OnInit {
 
 
 onColumnButtonClick(column){
-  console.log('ColumnComponent#onColumnButtonClick' , column.id)
+  console.log('ColumnComponent#onColumnButtonClick ' , column.id)
   this.database.addCardRefColumn(column.id)
 }
 

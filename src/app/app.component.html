@@ -1,2 +1,6 @@
 
-<dvtx-status-pipeline [boardSubject$]="boardSubject$"></dvtx-status-pipeline>
+<dvtx-status-pipeline
+        [boardSubject$]="boardSubject$"
+        (onTransition)="onTransition"
+        [onClickColumnTitle]="onClickColumnTitle">
+</dvtx-status-pipeline>
