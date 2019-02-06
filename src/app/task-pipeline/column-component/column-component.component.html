@@ -1,5 +1,5 @@
 
-
+<div [ngClass]="dragClass">
 <div *ngIf="board$ | async as board"
 droppable="true"
 (dragstart)="handleDragStart($event,column)"  (dragover)="handleDragOver($event,column)" 
@@ -16,4 +16,5 @@ droppable="true"
             <app-card-component [card]="card" [boardSubject$]="boardSubject$"></app-card-component>
         </li>
     </ul>
+</div>
 </div>

@@ -28,7 +28,6 @@ export class CardComponentComponent implements OnInit {
 
 
   constructor() {
-
   }
 
     ngOnInit() {
@@ -53,6 +52,8 @@ export class CardComponentComponent implements OnInit {
    // this.database.dndSourceCard = card;
    event.dataTransfer.setData('foo', this.card.id);
    // event.dataTransfer.setDragImage(this.emptyItem.nativeElement, 0, 0);
+      // event.dataTransfer.effectAllowed = 'move'  ;
+
 
    console.log('CardComponent#handleDragStart',card.id)
   }
@@ -60,7 +61,8 @@ export class CardComponentComponent implements OnInit {
   handleDragOver(event, node) {
     event.preventDefault();
       const dragId = event.dataTransfer.getData('foo')
-      console.log('CardComponent#handleDragOver ',dragId,'->',this.card.id)
+      // console.log('CardComponent#handleDragOver ',dragId,'->',this.card.id)
+      // console.log('dropEffect'   ,event.dataTransfer.dropEffect)
    }
 
   

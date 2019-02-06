@@ -27,7 +27,8 @@ export class ColumnComponentComponent implements OnInit {
 
   database: Database
   board : Board
-
+  dragClass: string = 'drag-color0'; // drag/drop enable/disable color
+  inTimer:boolean = false;
 
   constructor( ) {
     this.onAddCard = new EventEmitter();
@@ -63,15 +64,38 @@ export class ColumnComponentComponent implements OnInit {
    // event.dataTransfer.setData('foo', node.id);
    // console.log('ColumnComponent#handleDragStart',node.id)
    // ignore as columns are not sources for drag.
+
   }
 
   handleDragOver(event, node) {
-     event.preventDefault();
+    event.preventDefault();
     const dragId = event.dataTransfer.getData('foo')
-    console.log('ColumnComponent#handleDragOver ',dragId,'->',node.id)
-   }
+    // console.log('ColumnComponent#handleDragOver ',dragId,'->',node.id)
+    // event.dataTransfer.dropEffect = 'none'  ;
+    // console.log('dropEffect'   ,event.dataTransfer.dropEffect)
+    this.colorDragProtectedArea(node)
 
-  
+  }
+
+
+
+  colorDragProtectedArea = (node) => {
+
+    this.dragClass = 'drag-color1';
+    if (!this.inTimer) {
+      this.inTimer = true;
+      setTimeout(() => {
+        console.log('-> reset ngClass', ' =', node.id)
+        this.dragClass = 'drag-color0';
+        this.inTimer = false;
+      }, 2000);
+    }
+
+
+  }
+
+
+
   handleDrop(event, node) {
     event.preventDefault();
     const dragId = event.dataTransfer.getData('foo')
