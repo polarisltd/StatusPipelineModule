@@ -23,9 +23,11 @@ export class ColumnComponentComponent implements OnInit {
   column: Column; // column on which this item having ownership
   @Input() onTransition : EventEmitter<IStatusChange>; // card, fromCol, toCol
   @Input() onClickColumnTitle : EventEmitter<IPipelineColumn>;
+  @Input() validateDrag: Function
   @Output()
   public onAddCard: EventEmitter<Card>;
   @Output() cardUpdate: EventEmitter<Card>;
+
 
   board$ : Observable<Board>;
 
@@ -85,7 +87,13 @@ export class ColumnComponentComponent implements OnInit {
     // console.log('ColumnComponent#handleDragOver ',dragId,'->',node.id)
     // event.dataTransfer.dropEffect = 'none'  ;
     // console.log('dropEffect'   ,event.dataTransfer.dropEffect)
-    if(!this.validateDropRules(sourceId,this.column.id)) {
+
+    if(true && !this.validateDrag(sourceId,this.column.id)) {
+      this.colorDragProtectedArea(node)
+    }
+
+    // bellow works just change flag!
+    if(false && !this.validateDropRules(sourceId,this.column.id)) {
       this.colorDragProtectedArea(node)
     }
   }
@@ -140,7 +148,8 @@ export class ColumnComponentComponent implements OnInit {
     event.preventDefault();
     const dragId = event.dataTransfer.getData('foo')
     console.log('ColumnComponent#handleDrop ',dragId,'->',node.id)
-    if(this.validateDropRules(dragId,node.id)){
+
+    if(this.validateDrag(dragId,node.id) /*this.validateDropRules(dragId,node.id)*/){
        console.log('moving ...')
        this.database.moveCard(dragId, node.id)
 

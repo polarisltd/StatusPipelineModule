@@ -19,6 +19,11 @@ import {
   providers: [DataSource]
 })
 export class AppComponent implements OnInit{
+  public validateDragFunction: Function;
+
+
+
+
   boardSubject$ : Subject<Board>
   dataSource: DataSource;
   onTransition = new EventEmitter<IStatusChange>(); // card, fromCol, toCol
@@ -32,8 +37,16 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {
-    // this.database.setupObservable()
     this.boardSubject$ = this.dataSource.boardSubject$
+    this.validateDragFunction = this.validateDrag.bind(this); // bind actual method
+
+  }
+
+
+  /** Actual validation function */
+  validateDrag(id1,id2):boolean{
+    console.log('*** Validate drag callback')
+    return true
   }
 
 
