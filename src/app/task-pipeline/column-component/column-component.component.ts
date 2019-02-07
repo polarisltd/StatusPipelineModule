@@ -149,7 +149,7 @@ export class ColumnComponentComponent implements OnInit {
     const dragId = event.dataTransfer.getData('foo')
     console.log('ColumnComponent#handleDrop ',dragId,'->',node.id)
 
-    if(this.validateDrag(dragId,node.id) /*this.validateDropRules(dragId,node.id)*/){
+    if( this.validateDrag(dragId,node.id) /*this.validateDropRules(dragId,node.id)*/){
        console.log('moving ...')
        this.database.moveCard(dragId, node.id)
 

@@ -19,7 +19,7 @@ import {
   providers: [DataSource]
 })
 export class AppComponent implements OnInit{
-  public validateDragFunction: Function;
+  public  validateDragFunction: Function;
 
 
 
