@@ -21,7 +21,6 @@ export class ColumnComponentComponent implements OnInit {
   column: Column; // column on which this item having ownership
   @Input() onTransition : EventEmitter<IStatusChange>; // card, fromCol, toCol
   @Input() onClickColumnTitle : EventEmitter<IPipelineColumn>;
-  @Input()
   @Output()
   public onAddCard: EventEmitter<Card>;
   @Output() cardUpdate: EventEmitter<Card>;
@@ -98,8 +97,21 @@ export class ColumnComponentComponent implements OnInit {
       console.log('CardComponent#validateRules #sourceId card/col => col' ,srcCardId,'/',srcCard.columnId,' => '   ,dstColumnId    )
     else
       console.log('card not found ',srcCardId,' board_cards.len '  , this.board.cards.length)
+
+    const srcColumn = this.board.columns.find(entry => entry.id === srcCard.columnId)
+    const idxSourceColumn = this.board.columns.indexOf(srcColumn)
+
+    // rules: allowed to move only to next column if such exists
+
+    if(this.board.columns.length <= (idxSourceColumn + 1) || this.board.columns[idxSourceColumn + 1].id !== dstColumnId  )
+      return false; //
+
+    // rule:  prevent moving to same column as originating card. above prevents coming here.
+
     if (!srcCard || srcCard.columnId === dstColumnId) return false;
-    else return true;
+
+    // default to true
+    return true;
   }
 
 
@@ -126,8 +138,24 @@ export class ColumnComponentComponent implements OnInit {
     event.preventDefault();
     const dragId = event.dataTransfer.getData('foo')
     console.log('ColumnComponent#handleDrop ',dragId,'->',node.id)
-    if(this.validateDropRules(dragId,node.id))
+    if(this.validateDropRules(dragId,node.id)){
+       console.log('moving ...')
        this.database.moveCard(dragId, node.id)
+
+       const movedCard =  this.board.cards.find(entry => entry.id === dragId);
+       const fromColumn = this.board.columns.find(entry => entry.id === movedCard.columnId);
+       const toColumn = this.board.columns.find(entry => entry.id === node.id);
+
+
+       const statusChange = {
+         src:fromColumn,
+         dst:toColumn,
+         elem:movedCard
+       } as IStatusChange;
+
+       console.log('emitting statusChange: ', statusChange)
+       this.onTransition.emit(statusChange)
+    }
   }
 
   handleDragEnd(event)  {

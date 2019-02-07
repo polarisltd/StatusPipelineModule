@@ -78,8 +78,8 @@ export class CardComponentComponent implements OnInit {
   handleDrop(event, card) {
     event.preventDefault();
       const dragId = event.dataTransfer.getData('foo')
-      console.log('CardComponent#handleDrop ',dragId,'->',this.card.columnId)
-      this.database.moveCard(dragId,this.card.columnId) // moving into current card column
+      console.log('CardComponent#handleDrop DISABLED ',dragId,'->',this.card.columnId)
+      // this.database.moveCard(dragId,this.card.columnId) // moving into current card column
   }
 
   handleDragEnd(event) {
