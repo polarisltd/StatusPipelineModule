@@ -88,12 +88,9 @@ export class ColumnComponentComponent implements OnInit {
     // event.dataTransfer.dropEffect = 'none'  ;
     // console.log('dropEffect'   ,event.dataTransfer.dropEffect)
 
-    if(true && !this.validateDrag(sourceId,this.column.id)) {
-      this.colorDragProtectedArea(node)
-    }
-
-    // bellow works just change flag!
-    if(false && !this.validateDropRules(sourceId,this.column.id)) {
+    // try external validator
+    this.validateDrag(sourceId,this.column.id)
+    if(!this.validateDropRules(sourceId,this.column.id)) { // functionality from internal method
       this.colorDragProtectedArea(node)
     }
   }
@@ -149,7 +146,9 @@ export class ColumnComponentComponent implements OnInit {
     const dragId = event.dataTransfer.getData('foo')
     console.log('ColumnComponent#handleDrop ',dragId,'->',node.id)
 
-    if( this.validateDrag(dragId,node.id) /*this.validateDropRules(dragId,node.id)*/){
+    // external validator
+    this.validateDrag(dragId,node.id)
+    if(this.validateDropRules(dragId,node.id)){
        console.log('moving ...')
        this.database.moveCard(dragId, node.id)
 

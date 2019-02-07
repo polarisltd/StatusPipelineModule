@@ -46,7 +46,7 @@ export class AppComponent implements OnInit{
   /** Actual validation function */
   validateDrag(id1,id2):boolean{
     console.log('*** Validate drag callback')
-    return true
+    return false
   }
 
 

@@ -23,7 +23,7 @@ export class BoardComponentComponent implements OnInit {
   @Input() allowedTransitions: (ITransition) => boolean ; // callback card, fromCol, toCol
   @Input() onTransition : EventEmitter<IStatusChange>; // card, fromCol, toCol
   @Input() onClickColumnTitle : EventEmitter<IPipelineColumn>;
-   @Input() validateDrag: Function
+  @Input() validateDrag: Function
   // board: Board;
   //board$: Observable<Board>;
   board: Board;
