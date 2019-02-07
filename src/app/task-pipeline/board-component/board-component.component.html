@@ -19,7 +19,7 @@
      fxLayoutGap="10px"
      fxLayoutGap.xs="2px"
      class="scroll-this"> <!-- it really makes horisontal scrollbar -->
-   <span *ngFor="let column of board.columns">
+   <span *ngFor="let column of board.columns | sort">
     <tr><td>
        <div class="column-spacer" fxFlex="200px"> 
          

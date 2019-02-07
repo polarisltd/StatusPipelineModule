@@ -12,49 +12,49 @@ export class DataSource  {
                 "id": "001-001",
                 "title": "Open",
                 "boardId": "000-000",
-                "order": 0,
+                "order": 3,
                 "color": "red"
             },
             {
                 "id": "001-002",
                 "title": "Todo",
                 "boardId": "000-000",
-                "order": 1,
+                "order": 4,
                 "color": "blue"
             },
             {
                 "id": "001-003",
                 "title": "Doing",
                 "boardId": "000-000",
-                "order": 2,
+                "order": 5,
                 "color": "green"
             },
             {
                 "id": "001-004",
                 "title": "Done",
                 "boardId": "000-000",
-                "order": 3,
+                "order": 6,
                 "color": "magenta"
             },
             {
                 "id": "001-005",
                 "title": "Future-1",
                 "boardId": "000-000",
-                "order": 4,
+                "order": 2,
                 "color": "blue"
             },
             {
                 "id": "001-006",
                 "title": "Future-2",
                 "boardId": "000-000",
-                "order": 5,
+                "order": 1,
                 "color": "cyan"
             },
             {
                 "id": "001-007",
                 "title": "Future-3",
                 "boardId": "000-000",
-                "order": 6,
+                "order": 0,
                 "color": "blue"
             }
         ],

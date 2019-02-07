@@ -5,6 +5,8 @@ import {Board} from "../shared/board";
 import {Column} from "../shared/column";
 import {Card} from "../shared/card";
 import {IPipelineColumn, IPipelineColumnElement, IStatusChange} from "../shared/status-pipeline-module.interface";
+import {ColumnsSortPipe} from "../shared/sortby-pipe";
+
 
 
 @Component({

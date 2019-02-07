@@ -16,12 +16,14 @@ import {
   MatMenuModule
 } from "@angular/material";
 import {FlexLayoutModule} from "@angular/flex-layout";
+import {ColumnsSortPipe} from "./shared/sortby-pipe";
 
 @NgModule({
   declarations: [
     BoardComponentComponent,
     CardComponentComponent,
-    ColumnComponentComponent
+    ColumnComponentComponent,
+    ColumnsSortPipe
   ],
   imports: [
     CommonModule,
@@ -42,7 +44,8 @@ import {FlexLayoutModule} from "@angular/flex-layout";
   exports: [
     BoardComponentComponent,
     CardComponentComponent,
-    ColumnComponentComponent],
+    ColumnComponentComponent
+  ],
   providers: [
   ]
 })
