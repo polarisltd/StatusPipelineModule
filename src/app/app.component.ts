@@ -5,7 +5,6 @@ import {Database} from "./task-pipeline/shared/status-pipeline-module.database";
 import {DataSource} from "./DataSource";
 import {
   IPipelineColumn,
-  IPipelineColumnElement,
   IStatusChange
 } from "./task-pipeline/shared/status-pipeline-module.interface";
 
@@ -38,15 +37,34 @@ export class AppComponent implements OnInit{
 
   ngOnInit() {
     this.boardSubject$ = this.dataSource.boardSubject$
-    this.validateDragFunction = this.validateDrag.bind(this); // bind actual method
+    this.validateDragFunction = this.validateDropRules.bind(this); // bind actual method
 
   }
 
 
   /** Actual validation function */
-  validateDrag(id1,id2):boolean{
-    console.log('*** Validate drag callback')
-    return false
+  validateDropRules(statusChange: IStatusChange):boolean{
+
+    console.log('app.component#validateDragRules  ',statusChange)
+
+    class Transition {
+      constructor(public from: string,public  to: string) {}
+    }
+
+    const allowed: Transition[] = [
+      new Transition('001-002','001-003'),
+      new Transition('001-003','001-004'),
+      new Transition('001-004','001-005'),
+      new Transition('',''),
+      new Transition('','')
+    ];
+
+    return (allowed.filter(
+
+        elem => elem.from === statusChange.src.id &&
+                  elem.to === statusChange.dst.id
+    ).length > 0)
+
   }
 
 

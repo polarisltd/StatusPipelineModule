@@ -4,14 +4,17 @@ export enum PipelineColumnElementType {
 Task = 'Task'
 }
 export interface IPipelineColumn {
+id: string;
 title: string;
 status: string;
 order: number;
 color: string;
 }
 export interface IPipelineColumnElement {
-title: string;
 id: string;
+columnId: string;
+boardId: string;
+title: string;
 type: PipelineColumnElementType;
 status: string;
 }

@@ -31,14 +31,14 @@ export class DataSource  {
             },
             {
                 "id": "001-004",
-                "title": "Done",
+                "title": "Validation",
                 "boardId": "000-000",
                 "order": 3,
                 "color": "magenta"
             },
             {
                 "id": "001-005",
-                "title": "Future-1",
+                "title": "Staging",
                 "boardId": "000-000",
                 "order": 4,
                 "color": "blue"

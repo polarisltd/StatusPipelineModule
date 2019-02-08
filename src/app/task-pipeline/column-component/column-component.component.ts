@@ -23,7 +23,7 @@ export class ColumnComponentComponent implements OnInit {
   column: Column; // column on which this item having ownership
   @Input() onTransition : EventEmitter<IStatusChange>; // card, fromCol, toCol
   @Input() onClickColumnTitle : EventEmitter<IPipelineColumn>;
-  @Input() validateDrag: Function
+  @Input() validateDropRules: Function
   @Output()
   public onAddCard: EventEmitter<Card>;
   @Output() cardUpdate: EventEmitter<Card>;
@@ -80,7 +80,7 @@ export class ColumnComponentComponent implements OnInit {
     // known behaviuor, dragOver did not know originating item.
     // therefore we cheat :)
     //
-    const sourceId = event.dataTransfer.types.find(entry => entry.includes("id=")).substr(3) // strip id=
+    const sourceId = event.dataTransfer.types.find(entry => entry.includes("id=")).substr(3); // strip id=
     // console.log('CardComponent#handleDragOver #sourceId '   , sourceId )
 
 
@@ -89,37 +89,30 @@ export class ColumnComponentComponent implements OnInit {
     // console.log('dropEffect'   ,event.dataTransfer.dropEffect)
 
     // try external validator
-    this.validateDrag(sourceId,this.column.id)
-    if(!this.validateDropRules(sourceId,this.column.id)) { // functionality from internal method
+
+    if(!this.validateDropRulesWrapper(sourceId,this.column.id)) { // functionality from internal method
       this.colorDragProtectedArea(node)
     }
   }
 
 
-  validateDropRules(srcCardId:string,dstColumnId:string):boolean{
+  validateDropRulesWrapper(srcCardId:string, targetColumnId: string):boolean{
 
     const srcCard = this.board.cards.find(entry => entry.id === srcCardId)
 
     if(srcCard)
-      console.log('CardComponent#validateRules #sourceId card/col => col' ,srcCardId,'/',srcCard.columnId,' => '   ,dstColumnId    )
+      console.log('CardComponent#validateRules #sourceId card/col => col' ,srcCardId,'/',srcCard.columnId,' => '   ,targetColumnId    )
     else
       console.log('card not found ',srcCardId,' board_cards.len '  , this.board.cards.length)
 
     const srcColumn = this.board.columns.find(entry => entry.id === srcCard.columnId)
-    const idxSourceColumn = this.board.columns.indexOf(srcColumn)
 
-    // rules: allowed to move only to next column if such exists
+    const targColumn = this.board.columns.find(entry => entry.id === targetColumnId)
 
-    if(this.board.columns.length <= (idxSourceColumn + 1) || this.board.columns[idxSourceColumn + 1].id !== dstColumnId  )
-      return false; //
+    return this.validateDropRules({src:srcColumn,dst:targColumn,elem:srcCard} as IStatusChange)
 
-    // rule:  prevent moving to same column as originating card. above prevents coming here.
-
-    if (!srcCard || srcCard.columnId === dstColumnId) return false;
-
-    // default to true
-    return true;
   }
+
 
 
 
@@ -147,8 +140,8 @@ export class ColumnComponentComponent implements OnInit {
     console.log('ColumnComponent#handleDrop ',dragId,'->',node.id)
 
     // external validator
-    this.validateDrag(dragId,node.id)
-    if(this.validateDropRules(dragId,node.id)){
+
+    if(this.validateDropRulesWrapper(dragId,node.id)){
        console.log('moving ...')
        this.database.moveCard(dragId, node.id)
 
