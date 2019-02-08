@@ -18,17 +18,11 @@
      fxLayoutAlign="left"
      fxLayoutGap="10px"
      fxLayoutGap.xs="2px"
-     class="scroll-this"> <!-- it really makes horisontal scrollbar -->
+     class="scroll-this">
    <span *ngFor="let column of board.columns | sort">
-       <div class="column-spacer" fxFlex="200px"> 
-         
-         <!--
-          Option to adjust:
 
-          fxFlex=200px makes fixed width cards with scrollbar 
-         
-          fxFlex="fxShrink='5' fxGrow='5'" makes proportional sized
-         -->
+       <div class="column-spacer" fxFlex="200px">
+
          <app-column-component
            [column]="column"
            (onAddCard)="addCard($event)"
@@ -37,6 +31,7 @@
            [onClickColumnTitle]="onClickColumnTitle"
            [validateDrag]="validateDrag"
            >
+
          </app-column-component>
         </div>
   </span>

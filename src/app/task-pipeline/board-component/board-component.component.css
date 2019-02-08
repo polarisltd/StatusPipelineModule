@@ -10,8 +10,13 @@
 
 .column-spacer {
   padding: 5px 5px 5px 5px;
-    /* background-color: white;*/
+  /* column background-color: white; */
   background-color: whitesmoke; /* column background color*/
+
+  /* column vertical scroll*/
+  -webkit-flex: 1 1 auto;
+  overflow-y: auto;
+  height: 100%;
 }
 
 /* conatiner for scrolling pieces */

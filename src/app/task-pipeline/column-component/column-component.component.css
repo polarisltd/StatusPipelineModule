@@ -39,6 +39,8 @@
 .column-header {
   cursor: pointer;
   cursor: hand;
+  /*position:sticky;
+  top: 0; */
 }
 .column-header {
  
