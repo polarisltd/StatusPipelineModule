@@ -18,11 +18,16 @@ import {
   providers: [DataSource]
 })
 export class AppComponent implements OnInit{
+
+  ALLOWED_TRANSITIONS = [
+    ['001-002','001-003'],
+    ['001-003','001-004'],
+    ['001-004','001-005']
+  ]
+
+
+
   public  validateDragFunction: Function;
-
-
-
-
   boardSubject$ : Subject<Board>
   dataSource: DataSource;
   onTransition = new EventEmitter<IStatusChange>(); // card, fromCol, toCol
@@ -47,22 +52,10 @@ export class AppComponent implements OnInit{
 
     console.log('app.component#validateDragRules  ',statusChange)
 
-    class Transition {
-      constructor(public from: string,public  to: string) {}
-    }
+    return (this.ALLOWED_TRANSITIONS.filter(
 
-    const allowed: Transition[] = [
-      new Transition('001-002','001-003'),
-      new Transition('001-003','001-004'),
-      new Transition('001-004','001-005'),
-      new Transition('',''),
-      new Transition('','')
-    ];
-
-    return (allowed.filter(
-
-        elem => elem.from === statusChange.src.id &&
-                  elem.to === statusChange.dst.id
+        elem => elem[0] === statusChange.src.id &&
+                  elem[1] === statusChange.dst.id
     ).length > 0)
 
   }
