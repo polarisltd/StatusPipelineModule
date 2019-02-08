@@ -1,5 +1,5 @@
 
-<div [ngClass]="dragClass">
+<div [ngClass]="dragClass" class="column-container">
 <div *ngIf="board$ | async as board"
 droppable="true"
 (dragstart)="handleDragStart($event,column)"  (dragover)="handleDragOver($event,column)" 
@@ -11,10 +11,10 @@ droppable="true"
     <button  (click)="onColumnButtonClick(column)"  >[+card]</button>
      <button  (click)="onColumnButtonClickRemove(column)"  >[-column]</button>
 </div>
-    <ul class="card-list" [attr.column-id]="column.id">
-        <li *ngFor="let card of getCards(column.id,board)">
+    <div class="card-list" [attr.column-id]="column.id">
+        <div *ngFor="let card of getCards(column.id,board)">
             <app-card-component [card]="card" [boardSubject$]="boardSubject$"></app-card-component>
-        </li>
-    </ul>
+        </div>
+    </div>
 </div>
 </div>

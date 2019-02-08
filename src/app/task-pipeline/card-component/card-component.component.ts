@@ -9,7 +9,7 @@ import {Board} from "../shared/board";
 @Component({
   selector: 'app-card-component',
   templateUrl: './card-component.component.html',
-  styleUrls: ['./card-component.component.css']
+  styleUrls: ['./card-component.component.scss']
 })
 export class CardComponentComponent implements OnInit {
   @ViewChild('emptyItem') emptyItem: ElementRef;

@@ -10,7 +10,8 @@
 
 .column-spacer {
   padding: 5px 5px 5px 5px;
-  background-color: white;
+    /* background-color: white;*/
+  background-color: whitesmoke; /* column background color*/
 }
 
 /* conatiner for scrolling pieces */
