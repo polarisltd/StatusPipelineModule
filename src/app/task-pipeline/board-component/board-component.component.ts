@@ -23,6 +23,7 @@ export class BoardComponentComponent implements OnInit {
   @Input() onTransition : EventEmitter<IStatusChange>; // drag and drop operation
   @Input() onClickColumnTitle : EventEmitter<IPipelineColumn>; // column title click
   @Input() onAddCard : EventEmitter<IPipelineColumnElement>; // Add Card event
+  @Input() onUpdateCard : EventEmitter<IPipelineColumnElement>; // Add Card event
   @Input() onCardClick : EventEmitter<IPipelineColumnElement>; // Add Card event
   @Input() onRemoveColumn : EventEmitter<IPipelineColumn>; // Add Card event
   @Input() validateDropRules: Function // asking permission for drag and drop

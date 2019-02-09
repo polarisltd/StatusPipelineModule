@@ -29,6 +29,7 @@ export class AppComponent implements OnInit{
   onClickColumnTitle = new EventEmitter<IPipelineColumn>();
   onCardClick = new EventEmitter<IPipelineColumnElement>();
   onAddCard = new EventEmitter<IPipelineColumnElement>();
+  onUpdateCard = new EventEmitter<IPipelineColumnElement>();
   onRemoveColumn = new EventEmitter<IPipelineColumn>();
 
   messageArea: string = ''
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit{
     this.onAddCard.subscribe(item => this.showMessage('addCard:',item))
     this.onRemoveColumn.subscribe(item => this.showMessage('removeColumn',item))
     this.onCardClick.subscribe(item => this.showMessage('cardClick',item))
+    this.onUpdateCard.subscribe(item => this.showMessage('updateCard',item))
   }
 
   ngOnInit() {

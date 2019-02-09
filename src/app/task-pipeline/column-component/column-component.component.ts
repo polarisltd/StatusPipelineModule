@@ -27,7 +27,7 @@ export class ColumnComponentComponent implements OnInit {
   @Input() onAddCard: EventEmitter<Card>;
   @Input() onRemoveColumn : EventEmitter<IPipelineColumn>;
   @Input() onCardClick : EventEmitter<IPipelineColumnElement>;
-  @Output() cardUpdate: EventEmitter<Card>;
+  @Input() onUpdateCard: EventEmitter<Card>;
 
 
 
@@ -39,8 +39,6 @@ export class ColumnComponentComponent implements OnInit {
   inTimer:boolean = false;
 
   constructor( ) {
-    this.onAddCard = new EventEmitter();
-    this.cardUpdate = new EventEmitter();
   }
 
   ngOnInit() {

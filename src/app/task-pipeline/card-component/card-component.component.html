@@ -1,21 +1,21 @@
 <div class="space-card">
 	<mat-card class="card" draggable="true" (dragstart)="handleDragStart($event,card)" (dragover)="handleDragOver($event,card)"
-	 (drop)="handleDrop($event,card)" (dragend)="handleDragEnd($event)"  (click)="clickOnCard(card)"   >
+	 (drop)="handleDrop($event,card)" (dragend)="handleDragEnd($event)"  (click)="clickOnCard(card)"  (keyup.enter)="onKeyEnter()" >
 		<mat-card-title>
 				<div class="card-title">
 					<div *ngIf="!isCardEditMode; else showEdit">
 						<a (click)="clickOnCardField($event,showTitle)">{{card.title}}</a>
 					</div>
 					<ng-template #showEdit>
-						<input  mdInput [(ngModel)]="card.title" (keyup.enter)="onKeyEnter()" required>
+						<input  mdInput [(ngModel)]="card.title"  required>
                      </ng-template>
                 </div>
 		</mat-card-title>
 		<mat-card-content >
 			<div *ngIf="!isCardEditMode; else showEdit1" (click)="clickOnCardField($event,showTitle)" >{{card.content}}</div>
 			<ng-template #showEdit1>
-					<textarea class="card-textarea-input" [(ngModel)]="card.content" mdInput (keyup.enter)="onKeyEnter()" required></textarea>
-				<br>Enter to complete
+					<textarea mdInput class="card-textarea-input" [(ngModel)]="card.content"   required></textarea>
+				<div class="press-enter-text"><br>Enter to complete</div>
 			</ng-template>
 		</mat-card-content>
         <mat-card-actions>

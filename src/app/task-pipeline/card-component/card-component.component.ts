@@ -16,10 +16,8 @@ export class CardComponentComponent implements OnInit {
   @ViewChild('emptyItem') emptyItem: ElementRef;
   @Input() boardSubject$: Subject<Board> // initialised and provided by board component
   @Input() card: Card;
-  @Output() cardUpdate: EventEmitter<Card>;
+  @Input() onUpdateCard: EventEmitter<Card>;
   @Input() onCardClick : EventEmitter<IPipelineColumnElement>;
-  editingCard = false;
-  currentTitle: string;
   database: Database;
 
   isCardEditMode : boolean = false;
@@ -87,13 +85,17 @@ onCardButtonClick2(card){
 
 clickOnCard(card){
     console.log('CardComponent#onCardButtonClick' , card.id)
-    if(!this.isCardEditMode)
+    if(!this.isCardEditMode) {
         this.onCardClick.emit(this.database.getCard(card.id))
-    this.isCardEditMode = true
+        this.isCardEditMode = true
+    }
 }
 
-    onKeyEnter(){
-        this.isCardEditMode = false
+onKeyEnter() {
+    if (this.isCardEditMode) {
+      this.onUpdateCard.emit(this.card)
+      this.isCardEditMode = false
     }
+}
 
 }
