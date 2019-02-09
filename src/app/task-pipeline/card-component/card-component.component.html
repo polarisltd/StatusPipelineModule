@@ -3,23 +3,24 @@
 	 (drop)="handleDrop($event,card)" (dragend)="handleDragEnd($event)"  (click)="clickOnCard(card)"   >
 		<mat-card-title>
 				<div class="card-title">
-					<div *ngIf="!isTitleClicked; else showTitle">
-						<a (click)="clickOnCardTitle($event,showTitle)">{{card.title}}</a>
+					<div *ngIf="!isCardEditMode; else showEdit">
+						<a (click)="clickOnCardField($event,showTitle)">{{card.title}}</a>
 					</div>
-
-					<ng-template #showTitle>
-						<!--input  [value]="card.title" (input)="card.title = $event.target.value;" (click)="onCardTitleClick($event,showTitle)"  /-->
-						<mat-form-field>
-							<input matInput  ng-model="card.title" type="text">
-                        </mat-form-field>
+					<ng-template #showEdit>
+						<input  mdInput [(ngModel)]="card.title" (keyup.enter)="onKeyEnter()" required>
                      </ng-template>
                 </div>
 		</mat-card-title>
-
-		<mat-card-content >{{dragClass}}{{card.content}}</mat-card-content>
-           <mat-card-actions>
+		<mat-card-content >
+			<div *ngIf="!isCardEditMode; else showEdit1" (click)="clickOnCardField($event,showTitle)" >{{card.content}}</div>
+			<ng-template #showEdit1>
+					<textarea class="card-textarea-input" [(ngModel)]="card.content" mdInput (keyup.enter)="onKeyEnter()" required></textarea>
+				<br>Enter to complete
+			</ng-template>
+		</mat-card-content>
+        <mat-card-actions>
               <button mat-button (click)="clickCardDeleteButton(card)">[-] </button>
-           </mat-card-actions>
+        </mat-card-actions>
 	</mat-card>
 
 </div>

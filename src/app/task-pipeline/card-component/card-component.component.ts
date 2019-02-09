@@ -22,7 +22,7 @@ export class CardComponentComponent implements OnInit {
   currentTitle: string;
   database: Database;
 
-  isTitleClicked : boolean = false;
+  isCardEditMode : boolean = false;
   board$ : Observable<Board>;
   board : Board
 
@@ -30,22 +30,22 @@ export class CardComponentComponent implements OnInit {
   constructor() {
   }
 
-    ngOnInit() {
+  ngOnInit() {
         this.board$ = this.boardSubject$; //this.database.getBoardObservable()
         this.board$.subscribe(board => {
             console.log('ColumnComponent#ngOnInit board$.subscrive '/*, JSON.stringify(board,null,'\t')*/)
             this.board = board
             this.database = new Database(this.boardSubject$,this.board);
             }
-
         )
-    }
-  clickOnCardTitle(event,isInput){
+  }
+
+  clickOnCardField(event,isInput){
   console.log('CardComponent#-> onCardTitleClick ',   this.card.title,',', isInput.elementRef)
-  this.isTitleClicked = !this.isTitleClicked;
+  this.isCardEditMode = true;
 }
 
-///////////
+
 
   handleDragStart(event, card) {
    event.dataTransfer.setData(`id=${this.card.id}`, 'data'); // whatever data
@@ -87,9 +87,13 @@ onCardButtonClick2(card){
 
 clickOnCard(card){
     console.log('CardComponent#onCardButtonClick' , card.id)
-    this.onCardClick.emit(this.database.getCard(card.id))
+    if(!this.isCardEditMode)
+        this.onCardClick.emit(this.database.getCard(card.id))
+    this.isCardEditMode = true
 }
 
-
+    onKeyEnter(){
+        this.isCardEditMode = false
+    }
 
 }
