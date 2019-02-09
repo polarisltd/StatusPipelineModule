@@ -20,10 +20,12 @@ import {StatusPipelineShared} from "../shared/status-pipeline-shared";
 })
 export class BoardComponentComponent implements OnInit {
   @Input() boardSubject$ : Subject<Board>;
-  @Input() allowedTransitions: (ITransition) => boolean ; // callback card, fromCol, toCol
-  @Input() onTransition : EventEmitter<IStatusChange>; // card, fromCol, toCol
-  @Input() onClickColumnTitle : EventEmitter<IPipelineColumn>;
-  @Input() validateDropRules: Function
+  @Input() onTransition : EventEmitter<IStatusChange>; // drag and drop operation
+  @Input() onClickColumnTitle : EventEmitter<IPipelineColumn>; // column title click
+  @Input() onAddCard : EventEmitter<IPipelineColumnElement>; // Add Card event
+  @Input() onCardClick : EventEmitter<IPipelineColumnElement>; // Add Card event
+  @Input() onRemoveColumn : EventEmitter<IPipelineColumn>; // Add Card event
+  @Input() validateDropRules: Function // asking permission for drag and drop
   // board: Board;
   //board$: Observable<Board>;
   board: Board;

@@ -1,7 +1,15 @@
 
+
+<div class="message-area" *ngIf="messageArea">
+    {{messageArea}}
+</div>
+
 <dvtx-status-pipeline
         [boardSubject$]="boardSubject$"
         [onTransition]="onTransition"
         [onClickColumnTitle]="onClickColumnTitle"
-        [validateDropRules]="validateDragFunction">
+        [validateDropRules]="validateDragFunction"
+        [onAddCard]="onAddCard"
+        [onRemoveColumn]="onRemoveColumn"
+        [onCardClick]="onCardClick">
 </dvtx-status-pipeline>

@@ -24,9 +24,11 @@ export class ColumnComponentComponent implements OnInit {
   @Input() onTransition : EventEmitter<IStatusChange>; // card, fromCol, toCol
   @Input() onClickColumnTitle : EventEmitter<IPipelineColumn>;
   @Input() validateDropRules: Function
-  @Output()
-  public onAddCard: EventEmitter<Card>;
+  @Input() onAddCard: EventEmitter<Card>;
+  @Input() onRemoveColumn : EventEmitter<IPipelineColumn>;
+  @Input() onCardClick : EventEmitter<IPipelineColumnElement>;
   @Output() cardUpdate: EventEmitter<Card>;
+
 
 
   board$ : Observable<Board>;
@@ -168,13 +170,16 @@ export class ColumnComponentComponent implements OnInit {
 
 
 onColumnButtonClick(column){
-  console.log('ColumnComponent#onColumnButtonClick ' , column.id)
-  this.database.addCardRefColumn(column.id)
+  console.log('ColumnComponent#onColumnButtonClick_AddCard ' , column.id)
+  const c:Card = this.database.addCardRefColumn(column.id)
+  this.onAddCard.emit(c)
 }
 
 onColumnButtonClickRemove(column){
   console.log('ColumnComponent#onColumnButtonClick' , column.id)
-  this.database.removeColumn(column.id)
+  const removedColumn :Column = this.database.removeColumn(column.id)
+  this.onRemoveColumn.emit(removedColumn)
+
 }
 
 

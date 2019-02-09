@@ -26,10 +26,13 @@
          <app-column-component
            [column]="column"
            (onAddCard)="addCard($event)"
+           [onCardClick]="onCardClick"
            [boardSubject$]="boardSubject$"
            [onTransition]="onTransition"
            [onClickColumnTitle]="onClickColumnTitle"
            [validateDropRules]="validateDropRules"
+           [onRemoveColumn]="onRemoveColumn"
+           [onAddCard]="onAddCard"
            >
 
          </app-column-component>

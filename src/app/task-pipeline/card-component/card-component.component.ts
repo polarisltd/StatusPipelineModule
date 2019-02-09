@@ -5,6 +5,7 @@ import {Database} from "../shared/status-pipeline-module.database";
 import {Card} from "../shared/card";
 import {Observable, Subject} from "rxjs";
 import {Board} from "../shared/board";
+import {IPipelineColumnElement} from "../shared/status-pipeline-module.interface";
 
 @Component({
   selector: 'app-card-component',
@@ -13,11 +14,10 @@ import {Board} from "../shared/board";
 })
 export class CardComponentComponent implements OnInit {
   @ViewChild('emptyItem') emptyItem: ElementRef;
-  @Input()
-  boardSubject$: Subject<Board> // initialised and provided by board component
-  @Input()
-  card: Card;
+  @Input() boardSubject$: Subject<Board> // initialised and provided by board component
+  @Input() card: Card;
   @Output() cardUpdate: EventEmitter<Card>;
+  @Input() onCardClick : EventEmitter<IPipelineColumnElement>;
   editingCard = false;
   currentTitle: string;
   database: Database;
@@ -40,7 +40,7 @@ export class CardComponentComponent implements OnInit {
 
         )
     }
-  onCardTitleClick(event,isInput){
+  clickOnCardTitle(event,isInput){
   console.log('CardComponent#-> onCardTitleClick ',   this.card.title,',', isInput.elementRef)
   this.isTitleClicked = !this.isTitleClicked;
 }
@@ -48,19 +48,7 @@ export class CardComponentComponent implements OnInit {
 ///////////
 
   handleDragStart(event, card) {
-   // Required by Firefox (https://stackoverflow.com/questions/19055264/why-doesnt-html5-drag-and-drop-work-in-firefox)
-   // this.database.dndSourceCard = card;
-   event.dataTransfer.setData('foo', this.card.id);
-   //
-      //
    event.dataTransfer.setData(`id=${this.card.id}`, 'data'); // whatever data
-
-
-      //
-   // event.dataTransfer.setDragImage(this.emptyItem.nativeElement, 0, 0);
-      // event.dataTransfer.effectAllowed = 'move'  ;
-
-
    console.log('CardComponent#handleDragStart',card.id)
   }
 
@@ -70,8 +58,6 @@ export class CardComponentComponent implements OnInit {
       // therefore we cheat :)
       const sourceId = event.dataTransfer.types.find(entry => entry.includes("id="))
       console.log('CardComponent#handleDragOver #sourceId '   , sourceId )
-
-
    }
 
   
@@ -88,14 +74,22 @@ export class CardComponentComponent implements OnInit {
 
 }
 
-onCardButtonClick(card){
+clickCardDeleteButton(card){
   console.log('CardComponent#onCardButtonClick' , card.id)
   this.database.removeCard(card.id)
+  this.onCardClick.emit(this.database.getCard(card.id))
 }
 
 onCardButtonClick2(card){
   console.log('CardComponent#onCardButtonClick' , card.id)
   this.database.addCardRefCard(card.id)
 }
+
+clickOnCard(card){
+    console.log('CardComponent#onCardButtonClick' , card.id)
+    this.onCardClick.emit(this.database.getCard(card.id))
+}
+
+
 
 }

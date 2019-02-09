@@ -32,3 +32,12 @@ p, div, textarea, h2 {
   display: inline-block;
   margin-right: 3px;
 }
+
+.message-area{
+  height: 50px;
+  color: blue;
+  white-space:pre-wrap;
+  background-color: lightgoldenrodyellow;
+  overflow-y: scroll;
+  /*resize: none; *//* Remove this if you want the user to resize the textarea */
+}

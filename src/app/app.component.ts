@@ -1,11 +1,8 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {Board} from "./task-pipeline/shared/board";
-import {Observable, Subject} from "rxjs";
-import {Database} from "./task-pipeline/shared/status-pipeline-module.database";
+import {Subject} from "rxjs";
 import {DataSource} from "./DataSource";
-import {
-  IPipelineColumn,
-  IStatusChange
+import {IPipelineColumn, IPipelineColumnElement,IStatusChange
 } from "./task-pipeline/shared/status-pipeline-module.interface";
 
 
@@ -25,19 +22,24 @@ export class AppComponent implements OnInit{
     ['001-004','001-005']
   ]
 
-
-
   public  validateDragFunction: Function;
   boardSubject$ : Subject<Board>
   dataSource: DataSource;
   onTransition = new EventEmitter<IStatusChange>(); // card, fromCol, toCol
   onClickColumnTitle = new EventEmitter<IPipelineColumn>();
+  onCardClick = new EventEmitter<IPipelineColumnElement>();
+  onAddCard = new EventEmitter<IPipelineColumnElement>();
+  onRemoveColumn = new EventEmitter<IPipelineColumn>();
+
+  messageArea: string = ''
 
   constructor(dataSource: DataSource) {
     this.dataSource = dataSource;
-    this.onTransition.subscribe(item => console.log('AppComponent#onClickColumnTitle ' ,item))
-    this.onClickColumnTitle.subscribe(item => console.log('AppComponent#onClickColumnTitle ' , item))
-
+    this.onTransition.subscribe(item => this.showMessage('Drag-n-drop:',item))
+    this.onClickColumnTitle.subscribe(item => this.showMessage('click column:',item))
+    this.onAddCard.subscribe(item => this.showMessage('addCard:',item))
+    this.onRemoveColumn.subscribe(item => this.showMessage('removeColumn',item))
+    this.onCardClick.subscribe(item => this.showMessage('cardClick',item))
   }
 
   ngOnInit() {
@@ -58,6 +60,16 @@ export class AppComponent implements OnInit{
                   elem[1] === statusChange.dst.id
     ).length > 0)
 
+  }
+
+
+  showMessage(prefix:string, value:string){
+
+      this.messageArea =  prefix + JSON.stringify(value)
+      console.log('=>',this.messageArea)
+      setTimeout(() => {
+          this.messageArea = ''
+      }, 10000);
   }
 
 
