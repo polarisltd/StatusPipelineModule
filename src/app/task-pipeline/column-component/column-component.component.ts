@@ -83,13 +83,6 @@ export class ColumnComponentComponent implements OnInit {
     const sourceId = event.dataTransfer.types.find(entry => entry.includes("id=")).substr(3); // strip id=
     // console.log('CardComponent#handleDragOver #sourceId '   , sourceId )
 
-
-    // console.log('ColumnComponent#handleDragOver ',dragId,'->',node.id)
-    // event.dataTransfer.dropEffect = 'none'  ;
-    // console.log('dropEffect'   ,event.dataTransfer.dropEffect)
-
-    // try external validator
-
     if(!this.validateDropRulesWrapper(sourceId,this.column.id)) { // functionality from internal method
       this.colorDragProtectedArea(node)
     }
