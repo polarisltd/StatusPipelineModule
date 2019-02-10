@@ -28,6 +28,7 @@ export class ColumnComponentComponent implements OnInit {
   @Input() onRemoveColumn : EventEmitter<IPipelineColumn>;
   @Input() onCardClick : EventEmitter<IPipelineColumnElement>;
   @Input() onUpdateCard: EventEmitter<Card>;
+  @Input() onDeleteCard: EventEmitter<Card>;
 
 
 
@@ -63,24 +64,16 @@ export class ColumnComponentComponent implements OnInit {
 
 
   handleDragStart(event, node) {
-    // Required by Firefox (https://stackoverflow.com/questions/19055264/why-doesnt-html5-drag-and-drop-work-in-firefox)
-/*
-    event.dataTransfer.setData('foo', 'bar');
-    event.dataTransfer.setDragImage(this.emptyItem.nativeElement, 0, 0);
-*/
-   // event.dataTransfer.setData('foo', node.id);
-   // console.log('ColumnComponent#handleDragStart',node.id)
-   // ignore as columns are not sources for drag.
-
   }
 
   handleDragOver(event, node) {
     event.preventDefault();
     //
-    // known behaviuor, dragOver did not know originating item.
+    // known behaviuor, dragOver discards data value.
     // therefore we cheat :)
     //
-    const sourceId = event.dataTransfer.types.find(entry => entry.includes("id=")).substr(3); // strip id=
+    const sourceId = this.extractDragSourceId(event)
+    if(!sourceId)console.log('********* Drag miss sourceId')
     // console.log('CardComponent#handleDragOver #sourceId '   , sourceId )
 
     if(!this.validateDropRulesWrapper(sourceId,this.column.id)) { // functionality from internal method
@@ -95,9 +88,10 @@ export class ColumnComponentComponent implements OnInit {
 
     if(srcCard)
       console.log('CardComponent#validateRules #sourceId card/col => col' ,srcCardId,'/',srcCard.columnId,' => '   ,targetColumnId    )
-    else
-      console.log('card not found ',srcCardId,' board_cards.len '  , this.board.cards.length)
-
+    else{
+      console.log('****** card not found ',srcCardId,' board_cards.len '  , this.board.cards.length)
+      return;
+    }
     const srcColumn = this.board.columns.find(entry => entry.id === srcCard.columnId)
 
     const targColumn = this.board.columns.find(entry => entry.id === targetColumnId)
@@ -129,7 +123,8 @@ export class ColumnComponentComponent implements OnInit {
 
   handleDrop(event, node) {
     event.preventDefault();
-    const dragId = event.dataTransfer.getData('foo')
+    // const dragId = event.dataTransfer.getData('foo')
+    const dragId = this.extractDragSourceId(event)
     console.log('ColumnComponent#handleDrop ',dragId,'->',node.id)
 
     // external validator
@@ -155,8 +150,6 @@ export class ColumnComponentComponent implements OnInit {
   }
 
   handleDragEnd(event)  {
-    const dragId = event.dataTransfer.getData('foo')
-    console.log('ColumnComponent#handleDragEnd ',dragId,'->',this.column.id)
   }
 
 
@@ -171,6 +164,11 @@ onColumnButtonClickRemove(column){
   const removedColumn :Column = this.database.removeColumn(column.id)
   this.onRemoveColumn.emit(removedColumn)
 
+}
+
+
+extractDragSourceId(event):string{
+  return event.dataTransfer.types.find(entry => entry.includes("id=")).substr(3);
 }
 
 

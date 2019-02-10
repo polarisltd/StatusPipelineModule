@@ -29,6 +29,7 @@ export class AppComponent implements OnInit{
   onClickColumnTitle = new EventEmitter<IPipelineColumn>();
   onCardClick = new EventEmitter<IPipelineColumnElement>();
   onAddCard = new EventEmitter<IPipelineColumnElement>();
+  onDeleteCard = new EventEmitter<IPipelineColumnElement>();
   onUpdateCard = new EventEmitter<IPipelineColumnElement>();
   onRemoveColumn = new EventEmitter<IPipelineColumn>();
 
@@ -39,9 +40,11 @@ export class AppComponent implements OnInit{
     this.onTransition.subscribe(item => this.showMessage('Drag-n-drop:',item))
     this.onClickColumnTitle.subscribe(item => this.showMessage('click column:',item))
     this.onAddCard.subscribe(item => this.showMessage('addCard:',item))
-    this.onRemoveColumn.subscribe(item => this.showMessage('removeColumn',item))
-    this.onCardClick.subscribe(item => this.showMessage('cardClick',item))
     this.onUpdateCard.subscribe(item => this.showMessage('updateCard',item))
+    this.onDeleteCard.subscribe(item => this.showMessage('deleteCard',item))
+    this.onRemoveColumn.subscribe(item => this.showMessage('deleteColumn',item))
+    this.onCardClick.subscribe(item => this.showMessage('cardClick',item))
+
   }
 
   ngOnInit() {

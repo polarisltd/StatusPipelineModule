@@ -16,7 +16,8 @@ export class CardComponentComponent implements OnInit {
   @ViewChild('emptyItem') emptyItem: ElementRef;
   @Input() boardSubject$: Subject<Board> // initialised and provided by board component
   @Input() card: Card;
-  @Input() onUpdateCard: EventEmitter<Card>;
+  @Input() onUpdateCard: EventEmitter<IPipelineColumnElement>;
+  @Input() onDeleteCard: EventEmitter<IPipelineColumnElement>;
   @Input() onCardClick : EventEmitter<IPipelineColumnElement>;
   database: Database;
 
@@ -44,47 +45,39 @@ export class CardComponentComponent implements OnInit {
 
 
 
-  handleDragStart(event, card) {
-   event.dataTransfer.setData(`id=${this.card.id}`, 'data'); // whatever data
+handleDragStart(event, card) {
+   this.insertDragSourceId(event,this.card.id)
    console.log('CardComponent#handleDragStart',card.id)
-  }
+}
 
-  handleDragOver(event, node) {
+handleDragOver(event, node) {
     event.preventDefault();
-      // known behaviuor, dragOver did not know originating item.
-      // therefore we cheat :)
-      const sourceId = event.dataTransfer.types.find(entry => entry.includes("id="))
+      const sourceId = this.extractDragSourceId(event)
       console.log('CardComponent#handleDragOver #sourceId '   , sourceId )
-   }
+}
 
   
-  handleDrop(event, card) {
+handleDrop(event, card) {
     event.preventDefault();
-      const dragId = event.dataTransfer.getData('foo')
-      console.log('CardComponent#handleDrop DISABLED ',dragId,'->',this.card.columnId)
-      // this.database.moveCard(dragId,this.card.columnId) // moving into current card column
-  }
+}
 
-  handleDragEnd(event) {
-      const dragId = event.dataTransfer.getData('foo')
-      console.log('CardComponent#handleDragEnd ',dragId,'->',this.card.id)
-
+handleDragEnd(event) {
 }
 
 clickCardDeleteButton(card){
-  console.log('CardComponent#onCardButtonClick' , card.id)
-  this.database.removeCard(card.id)
-  this.onCardClick.emit(this.database.getCard(card.id))
+  console.log('CardComponent#clickCardDeleteButton' , card.id)
+  this.database.removeCard(card.id) 
+  this.onDeleteCard.emit(card)
 }
 
 clickCardEditButton(card){
-    console.log('CardComponent#onCardEditButtonClick' , card.id)
+    console.log('CardComponent#clickCardEditButton' , card.id)
     this.isCardEditMode = true
 }
 
 
 clickOnCard(card){
-    console.log('CardComponent#onCardButtonClick' , card.id)
+    console.log('CardComponent#clickOnCard' , card.id)
     this.onCardClick.emit(this.database.getCard(card.id))
 }
 
@@ -92,6 +85,18 @@ clickExitUpdate() {
     console.log('onKeyEnter()')
     this.onUpdateCard.emit(this.card)
     this.isCardEditMode = false
+}
+
+extractDragSourceId(event):string{
+    // extract drag source as we coded it.
+    return event.dataTransfer.types.find(entry => entry.includes("id=")).substr(3);
+}
+insertDragSourceId(event,id:string){
+    // known behavior, dragOver did not make available originating item.
+    // normally we insert drag source via event.dataTransfer.setData(key,value)
+    // but now we cheat by inserting  event.dataTransfer.setData('key=value',whatever)
+    // dragOver strips only value but not key so thats our backdoor solution
+    event.dataTransfer.setData(`id=${id}`, 'data'); // whatever data
 }
 
 }
