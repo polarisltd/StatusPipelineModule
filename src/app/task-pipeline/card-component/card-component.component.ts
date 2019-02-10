@@ -66,7 +66,7 @@ handleDragEnd(event) {
 
 clickCardDeleteButton(card){
   console.log('CardComponent#clickCardDeleteButton' , card.id)
-  this.database.removeCard(card.id) 
+  this.database.removeCard(card.id)
   this.onDeleteCard.emit(card)
 }
 
