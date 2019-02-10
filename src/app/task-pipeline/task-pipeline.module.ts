@@ -7,13 +7,14 @@ import {Database} from "./shared/status-pipeline-module.database";
 import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule} from "@angular/forms";
+import { ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule,
   MatCardModule, MatCheckboxModule, MatFormFieldModule, MatGridListModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
-  MatMenuModule
+  MatMenuModule,
 } from "@angular/material";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {ColumnsSortPipe} from "./shared/sortby-pipe";
@@ -39,7 +40,8 @@ import {ColumnsSortPipe} from "./shared/sortby-pipe";
     MatCheckboxModule,
     MatGridListModule,
     FlexLayoutModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    ReactiveFormsModule
   ],
   exports: [
     BoardComponentComponent,

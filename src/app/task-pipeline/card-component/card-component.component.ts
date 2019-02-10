@@ -6,6 +6,7 @@ import {Card} from "../shared/card";
 import {Observable, Subject} from "rxjs";
 import {Board} from "../shared/board";
 import {IPipelineColumnElement} from "../shared/status-pipeline-module.interface";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-card-component',
@@ -24,10 +25,10 @@ export class CardComponentComponent implements OnInit {
   isCardEditMode : boolean = false;
   board$ : Observable<Board>;
   board : Board
+  cardForm: FormGroup;
+  cardFormChanged: boolean = false;
 
-
-  constructor() {
-  }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
         this.board$ = this.boardSubject$; //this.database.getBoardObservable()
@@ -37,6 +38,20 @@ export class CardComponentComponent implements OnInit {
             this.database = new Database(this.boardSubject$,this.board);
             }
         )
+
+      this.cardForm = this.fb.group({
+          'title': this.card.title,
+          'content': this.card.content
+      });
+      this.cardForm.valueChanges.subscribe(form => {
+          console.log('CardComponent#cardForm.valueChanges')
+          this.cardFormChanged = true;
+          this.card.title = form.title;
+          this.card.content = form.content;
+      });
+
+
+
   }
 
   clickOnCardField(event){
@@ -83,8 +98,12 @@ clickOnCard(card){
 
 clickExitUpdate() {
     console.log('onKeyEnter()')
-    this.onUpdateCard.emit(this.card)
+    // we will emit from formGroup change subscription.
     this.isCardEditMode = false
+    if(this.cardFormChanged){
+        this.onUpdateCard.emit(this.card)
+        this.isCardEditMode = false
+    }
 }
 
 extractDragSourceId(event):string{
