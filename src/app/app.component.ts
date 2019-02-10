@@ -22,10 +22,10 @@ export class AppComponent implements OnInit{
     ['001-004','001-005']
   ]
 
-  public  validateDragFunction: Function;
+  validateDragFunction: Function;
   boardSubject$ : Subject<Board>
   dataSource: DataSource;
-  onTransition = new EventEmitter<IStatusChange>(); // card, fromCol, toCol
+  onTransition = new EventEmitter<IStatusChange>();
   onClickColumnTitle = new EventEmitter<IPipelineColumn>();
   onCardClick = new EventEmitter<IPipelineColumnElement>();
   onAddCard = new EventEmitter<IPipelineColumnElement>();
