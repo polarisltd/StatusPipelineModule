@@ -1,25 +1,28 @@
 <div class="space-card">
 	<mat-card class="card" draggable="true" (dragstart)="handleDragStart($event,card)" (dragover)="handleDragOver($event,card)"
-	 (drop)="handleDrop($event,card)" (dragend)="handleDragEnd($event)"  (click)="clickOnCard(card)"  (keyup.enter)="onKeyEnter()" >
+	 (drop)="handleDrop($event,card)" (dragend)="handleDragEnd($event)"  (click)="clickOnCard(card)"  (keyup.enter)="clickExitUpdate()" >
 		<mat-card-title>
-				<div class="card-title">
-					<div *ngIf="!isCardEditMode; else showEdit">
-						<a (click)="clickOnCardField($event,showTitle)">{{card.title}}</a>
+				<div class="card-title"  [ngSwitch]="isCardEditMode">
+					<div *ngSwitchCase="false">
+						<a (click)="clickOnCardField($event)">{{card.title}}</a>
 					</div>
-					<ng-template #showEdit>
+					<div *ngSwitchCase="true">
 						<input  mdInput [(ngModel)]="card.title"  required>
-                     </ng-template>
+                     </div>
                 </div>
 		</mat-card-title>
 		<mat-card-content >
-			<div *ngIf="!isCardEditMode; else showEdit1" (click)="clickOnCardField($event,showTitle)" >{{card.content}}</div>
-			<ng-template #showEdit1>
+			<div  [ngSwitch]="isCardEditMode">
+			    <div *ngSwitchCase="false" (click)="clickOnCardField($event)" >{{card.content}}</div>
+				<div *ngSwitchCase="true">
 					<textarea mdInput class="card-textarea-input" [(ngModel)]="card.content"   required></textarea>
-				<div class="press-enter-text"><br>Enter to complete</div>
-			</ng-template>
+				    <a class="press-enter-text"  (click)="clickExitUpdate()"><br>Enter to complete</a>
+			    </div>
+			</div>
 		</mat-card-content>
         <mat-card-actions>
-              <button mat-button (click)="clickCardDeleteButton(card)">[-] </button>
+              <button mat-button class="mini-button" (click)="clickCardDeleteButton(card)">[-]</button>
+			  <button mat-button class="mini-button" (click)="clickCardEditButton(card)">[e]</button>
         </mat-card-actions>
 	</mat-card>
 

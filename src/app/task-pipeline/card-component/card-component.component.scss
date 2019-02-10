@@ -51,8 +51,19 @@
   font-size: 24px;
 }
 
+.card-text{
+  font-size: 14px;
+}
+
 .press-enter-text{
   color: blue;
   animation: blinker 1s linear infinite;
+}
+
+.mini-button{
+  max-width: 10px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 

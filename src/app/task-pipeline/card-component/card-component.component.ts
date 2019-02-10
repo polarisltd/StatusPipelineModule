@@ -38,9 +38,8 @@ export class CardComponentComponent implements OnInit {
         )
   }
 
-  clickOnCardField(event,isInput){
-  console.log('CardComponent#-> onCardTitleClick ',   this.card.title,',', isInput.elementRef)
-  this.isCardEditMode = true;
+  clickOnCardField(event){
+  console.log('CardComponent#-> onCardTitleClick ',   this.card.title)
 }
 
 
@@ -78,24 +77,21 @@ clickCardDeleteButton(card){
   this.onCardClick.emit(this.database.getCard(card.id))
 }
 
-onCardButtonClick2(card){
-  console.log('CardComponent#onCardButtonClick' , card.id)
-  this.database.addCardRefCard(card.id)
+clickCardEditButton(card){
+    console.log('CardComponent#onCardEditButtonClick' , card.id)
+    this.isCardEditMode = true
 }
+
 
 clickOnCard(card){
     console.log('CardComponent#onCardButtonClick' , card.id)
-    if(!this.isCardEditMode) {
-        this.onCardClick.emit(this.database.getCard(card.id))
-        this.isCardEditMode = true
-    }
+    this.onCardClick.emit(this.database.getCard(card.id))
 }
 
-onKeyEnter() {
-    if (this.isCardEditMode) {
-      this.onUpdateCard.emit(this.card)
-      this.isCardEditMode = false
-    }
+clickExitUpdate() {
+    console.log('onKeyEnter()')
+    this.onUpdateCard.emit(this.card)
+    this.isCardEditMode = false
 }
 
 }
