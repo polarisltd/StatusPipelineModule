@@ -37,7 +37,7 @@ p, div, textarea, h2 {
   height: 50px;
   color: blue;
   white-space:pre-wrap;
-  background-color: lightgoldenrodyellow;
+  background-color: dodgerblue;
   overflow-y: scroll;
   /*resize: none; *//* Remove this if you want the user to resize the textarea */
 }

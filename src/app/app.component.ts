@@ -32,7 +32,7 @@ export class AppComponent implements OnInit{
   onUpdateCard = new EventEmitter<IPipelineColumnElement>();
   onRemoveColumn = new EventEmitter<IPipelineColumn>();
 
-  messageArea: string = ''
+  messageArea: string = 'Demo events.'
 
   constructor(dataSource: DataSource) {
     this.dataSource = dataSource;
@@ -70,7 +70,7 @@ export class AppComponent implements OnInit{
       this.messageArea =  prefix + JSON.stringify(value)
       console.log('=>',this.messageArea)
       setTimeout(() => {
-          this.messageArea = ''
+          this.messageArea = 'Demo events.'
       }, 10000);
   }
 

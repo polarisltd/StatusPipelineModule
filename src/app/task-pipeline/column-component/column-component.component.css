@@ -41,6 +41,10 @@
   cursor: hand;
   /*position:sticky;
   top: 0; */
+  /* can make fixed column header but didnt work in association w horisontal scroll
+  position: fixed;
+  z-index: 1;
+  */
 }
 .column-header {
  
