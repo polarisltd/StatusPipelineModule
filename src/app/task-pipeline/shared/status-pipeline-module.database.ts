@@ -1,18 +1,14 @@
-
+// tslint:disable-next-line:import-blacklist
 import { Observable } from 'rxjs';
-import { Subject } from "rxjs";
-import {Card} from "./card";
-import {Column} from "./column";
-import {Board} from "./board";
-import {IPipelineColumn, IPipelineColumnElement} from "./status-pipeline-module.interface";
+// tslint:disable-next-line:import-blacklist
+import { Subject } from 'rxjs';
+import {Card} from './card';
+import {Column} from './column';
+import {Board} from './board';
+import {IPipelineColumn, IPipelineColumnElement} from './status-pipeline-module.interface';
 
 
 export class Database {
-
-  dndSourceCard: Card;
-  dndTargetColumn: Column;
-
-
 
   boardInternal: Board;
   board$: Observable<Board>;
@@ -20,45 +16,36 @@ export class Database {
 
 
   constructor(boardSubject$: Subject<Board>,
-              board : Board) {
+              board: Board) {
     console.log('Database# constructor{}')
     this.boardSubject$ = boardSubject$;
     this.boardInternal = board;
   }
 
-  setupObservable(){
 
 
-    // Important!
-    // remebemr that observable will return data later then expected :)
 
-
-   // this.boardSubject$.next(this.board);
-
-  }
-
-
-  public getBoardObservable(): Observable<Board> {
+public getBoardObservable(): Observable<Board> {
     
     return this.board$
 
-  }
+}
 
 
   removeCard(cardId: string) {
-    const c: Card = this.boardInternal.cards.find(c => c.id === cardId)
+    const c: Card = this.boardInternal.cards.find(c_ => c_.id === cardId)
     this.boardInternal.cards.splice(
       this.boardInternal.cards.indexOf(c), 1
     )
     this.boardSubject$.next(this.boardInternal);
   }
 
-  addCardRefCard(cardId: string):Card {
+  addCardRefCard(cardId: string): Card {
     const card: Card = this.boardInternal.cards.find(c => c.id === cardId)
-    const newCard = new Card()
-    newCard.id = this.uuidv4()
-    newCard.boardId = card.boardId
-    newCard.columnId = card.columnId
+    const newCard = new Card();
+    newCard.id = this.uuidv4();
+    newCard.boardId = card.boardId;
+    newCard.columnId = card.columnId;
     newCard.title = 'new card'
     newCard.content = 'coming soon'
 
@@ -68,13 +55,13 @@ export class Database {
   }
 
   addCardRefColumn(columnId: string): Card  {
-    const c: Column = this.boardInternal.columns.find(c => c.id === columnId)
-    const newCard = new Card()
-    newCard.id = this.uuidv4()
-    newCard.boardId = c.boardId
-    newCard.columnId = c.id
-    newCard.title = 'new card'
-    newCard.content = 'coming soon'
+    const c: Column = this.boardInternal.columns.find(c_ => c_.id === columnId)
+    const newCard = new Card();
+    newCard.id = this.uuidv4();
+    newCard.boardId = c.boardId;
+    newCard.columnId = c.id;
+    newCard.title = 'new card';
+    newCard.content = 'coming soon';
 
     this.boardInternal.cards.push(newCard)
     this.boardSubject$.next(this.boardInternal);  // submit to topic
@@ -82,12 +69,12 @@ export class Database {
   }
 
 
-  getColumn(columnId:string):IPipelineColumn  {
+  getColumn(columnId: string): IPipelineColumn  {
     const column: Column =  this.boardInternal.columns.find(c => c.id === columnId);
     return column;
   }
 
-  getCard(columnId:string):IPipelineColumnElement  {
+  getCard(columnId: string): IPipelineColumnElement  {
     const card: Card =  this.boardInternal.cards.find(c => c.id === columnId);
     return card;
   }
@@ -95,7 +82,7 @@ export class Database {
   /** drag n drop support. Move card to different column */
   moveCard(cardId, targetColumnId) {
 
-    console.log('moveCard boardInternal',this.boardInternal)
+    console.log('moveCard boardInternal', this.boardInternal)
 
     const card: Card = this.boardInternal.cards.find(c => c.id === cardId)
 
@@ -123,10 +110,10 @@ export class Database {
   }
 
 
-
+  /* tslint:disable */
   uuidv4() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
   }

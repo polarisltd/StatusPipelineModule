@@ -1,13 +1,15 @@
 
 import {Component, Input, Output, OnInit, AfterViewInit, EventEmitter, ElementRef} from '@angular/core';
 import { ViewChild} from '@angular/core';
-import {Database} from "../shared/status-pipeline-module.database";
-import {Card} from "../shared/card";
-import {Observable, Subject} from "rxjs";
-import {Board} from "../shared/board";
-import {IPipelineColumnElement} from "../shared/status-pipeline-module.interface";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {Database} from '../shared/status-pipeline-module.database';
+import {Card} from '../shared/card';
+// tslint:disable-next-line:import-blacklist
+import {Observable, Subject} from 'rxjs';
+import {Board} from '../shared/board';
+import {IPipelineColumnElement} from '../shared/status-pipeline-module.interface';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
+/* tslint:disable */
 @Component({
   selector: 'app-card-component',
   templateUrl: './card-component.component.html',
@@ -19,23 +21,23 @@ export class CardComponentComponent implements OnInit {
   @Input() card: Card;
   @Input() onUpdateCard: EventEmitter<IPipelineColumnElement>;
   @Input() onDeleteCard: EventEmitter<IPipelineColumnElement>;
-  @Input() onCardClick : EventEmitter<IPipelineColumnElement>;
+  @Input() onCardClick: EventEmitter<IPipelineColumnElement>;
   database: Database;
 
-  isCardEditMode : boolean = false;
-  board$ : Observable<Board>;
-  board : Board
+  isCardEditMode: boolean = false;
+  board$: Observable<Board>;
+  board: Board
   cardForm: FormGroup;
   cardFormChanged: boolean = false;
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-        this.board$ = this.boardSubject$; //this.database.getBoardObservable()
+        this.board$ = this.boardSubject$; // this.database.getBoardObservable()
         this.board$.subscribe(board => {
             console.log('ColumnComponent#ngOnInit board$.subscrive '/*, JSON.stringify(board,null,'\t')*/)
             this.board = board
-            this.database = new Database(this.boardSubject$,this.board);
+            this.database = new Database(this.boardSubject$, this.board);
             }
         )
 
@@ -54,15 +56,15 @@ export class CardComponentComponent implements OnInit {
 
   }
 
-  clickOnCardField(event){
+  clickOnCardField(event) {
   console.log('CardComponent#-> onCardTitleClick ',   this.card.title)
 }
 
 
 
 handleDragStart(event, card) {
-   this.insertDragSourceId(event,this.card.id)
-   console.log('CardComponent#handleDragStart',card.id)
+   this.insertDragSourceId(event, this.card.id)
+   console.log('CardComponent#handleDragStart', card.id)
 }
 
 handleDragOver(event, node) {
@@ -79,19 +81,19 @@ handleDrop(event, card) {
 handleDragEnd(event) {
 }
 
-clickCardDeleteButton(card){
+clickCardDeleteButton(card) {
   console.log('CardComponent#clickCardDeleteButton' , card.id)
   this.database.removeCard(card.id)
   this.onDeleteCard.emit(card)
 }
 
-clickCardEditButton(card){
+clickCardEditButton(card) {
     console.log('CardComponent#clickCardEditButton' , card.id)
     this.isCardEditMode = true
 }
 
 
-clickOnCard(card){
+clickOnCard(card) {
     console.log('CardComponent#clickOnCard' , card.id)
     this.onCardClick.emit(this.database.getCard(card.id))
 }
@@ -100,17 +102,17 @@ clickExitUpdate() {
     console.log('onKeyEnter()')
     // we will emit from formGroup change subscription.
     this.isCardEditMode = false
-    if(this.cardFormChanged){
+    if (this.cardFormChanged) {
         this.onUpdateCard.emit(this.card)
         this.isCardEditMode = false
     }
 }
 
-extractDragSourceId(event):string{
+extractDragSourceId(event): string {
     // extract drag source as we coded it.
-    return event.dataTransfer.types.find(entry => entry.includes("id=")).substr(3);
+    return event.dataTransfer.types.find(entry => entry.includes('id=')).substr(3);
 }
-insertDragSourceId(event,id:string){
+insertDragSourceId(event, id: string) {
     // known behavior, dragOver did not make available originating item.
     // normally we insert drag source via event.dataTransfer.setData(key,value)
     // but now we cheat by inserting  event.dataTransfer.setData('key=value',whatever)

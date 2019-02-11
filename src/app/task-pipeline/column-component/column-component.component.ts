@@ -1,14 +1,15 @@
 import {Component, Input, Output, OnInit, AfterViewInit, EventEmitter, ElementRef} from '@angular/core';
+// tslint:disable-next-line:import-blacklist
 import {Observable, Subject} from 'rxjs';
-import {Database} from "../shared/status-pipeline-module.database";
-import {Board} from "../shared/board";
-import {Column} from "../shared/column";
-import {Card} from "../shared/card";
-import {IPipelineColumn, IPipelineColumnElement, IStatusChange} from "../shared/status-pipeline-module.interface";
-import {ColumnsSortPipe} from "../shared/sortby-pipe";
+import {Database} from '../shared/status-pipeline-module.database';
+import {Board} from '../shared/board';
+import {Column} from '../shared/column';
+import {Card} from '../shared/card';
+import {IPipelineColumn, IPipelineColumnElement, IStatusChange} from '../shared/status-pipeline-module.interface';
+import {ColumnsSortPipe} from '../shared/sortby-pipe';
 
 
-
+/* tslint:disable */
 @Component({
   selector: 'app-column-component',
   templateUrl: './column-component.component.html',
@@ -21,23 +22,23 @@ export class ColumnComponentComponent implements OnInit {
   boardSubject$: Subject<Board> // initialised and provided by board component
   @Input()
   column: Column; // column on which this item having ownership
-  @Input() onTransition : EventEmitter<IStatusChange>; // card, fromCol, toCol
-  @Input() onClickColumnTitle : EventEmitter<IPipelineColumn>;
+  @Input() onTransition: EventEmitter<IStatusChange>; // card, fromCol, toCol
+  @Input() onClickColumnTitle: EventEmitter<IPipelineColumn>;
   @Input() validateDropRules: Function
   @Input() onAddCard: EventEmitter<Card>;
-  @Input() onRemoveColumn : EventEmitter<IPipelineColumn>;
-  @Input() onCardClick : EventEmitter<IPipelineColumnElement>;
+  @Input() onRemoveColumn: EventEmitter<IPipelineColumn>;
+  @Input() onCardClick: EventEmitter<IPipelineColumnElement>;
   @Input() onUpdateCard: EventEmitter<Card>;
   @Input() onDeleteCard: EventEmitter<Card>;
 
 
 
-  board$ : Observable<Board>;
+  board$: Observable<Board>;
 
   database: Database
-  board : Board
+  board: Board
   dragClass: string = 'drag-color0'; // drag/drop enable/disable color
-  inTimer:boolean = false;
+  inTimer: boolean = false;
 
   constructor( ) {
   }
@@ -47,18 +48,18 @@ export class ColumnComponentComponent implements OnInit {
        this.board$.subscribe(board => {
            console.log('ColumnComponent#ngOnInit board$.subscrive '/*, JSON.stringify(board,null,'\t')*/)
            this.board = board
-           this.database = new Database(this.boardSubject$,this.board);
+           this.database = new Database(this.boardSubject$, this.board);
       }
 
       )
   }
 
-  getCards(columnId: string, board:Board): Card[]{
+  getCards(columnId: string, board: Board): Card[] {
     return board.cards.filter(card => columnId === card.columnId)
   }
 
-  onColumnClick(event){
-  console.log('ColumnComponent#-> onColumnClick ',this.column.title)
+  onColumnClick(event) {
+  console.log('ColumnComponent#-> onColumnClick ', this.column.title)
     this.onClickColumnTitle.emit(this.column)
   }
 
@@ -73,30 +74,30 @@ export class ColumnComponentComponent implements OnInit {
     // therefore we cheat :)
     //
     const sourceId = this.extractDragSourceId(event)
-    if(!sourceId)console.log('********* Drag miss sourceId')
+    if (!sourceId)console.log('********* Drag miss sourceId')
     // console.log('CardComponent#handleDragOver #sourceId '   , sourceId )
 
-    if(!this.validateDropRulesWrapper(sourceId,this.column.id)) { // functionality from internal method
+    if (!this.validateDropRulesWrapper(sourceId, this.column.id)) { // functionality from internal method
       this.colorDragProtectedArea(node)
     }
   }
 
 
-  validateDropRulesWrapper(srcCardId:string, targetColumnId: string):boolean{
+  validateDropRulesWrapper(srcCardId: string, targetColumnId: string): boolean {
 
     const srcCard = this.board.cards.find(entry => entry.id === srcCardId)
 
-    if(srcCard)
-      console.log('CardComponent#validateRules #sourceId card/col => col' ,srcCardId,'/',srcCard.columnId,' => '   ,targetColumnId    )
-    else{
-      console.log('****** card not found ',srcCardId,' board_cards.len '  , this.board.cards.length)
+    if (srcCard)
+      console.log('CardComponent#validateRules #sourceId card/col => col' , srcCardId, '/', srcCard.columnId, ' => '   , targetColumnId    )
+    else {
+      console.log('****** card not found ', srcCardId, ' board_cards.len '  , this.board.cards.length)
       return;
     }
     const srcColumn = this.board.columns.find(entry => entry.id === srcCard.columnId)
 
     const targColumn = this.board.columns.find(entry => entry.id === targetColumnId)
 
-    return this.validateDropRules({src:srcColumn,dst:targColumn,elem:srcCard} as IStatusChange)
+    return this.validateDropRules({src: srcColumn, dst: targColumn, elem: srcCard} as IStatusChange)
 
   }
 
@@ -125,11 +126,11 @@ export class ColumnComponentComponent implements OnInit {
     event.preventDefault();
     // const dragId = event.dataTransfer.getData('foo')
     const dragId = this.extractDragSourceId(event)
-    console.log('ColumnComponent#handleDrop ',dragId,'->',node.id)
+    console.log('ColumnComponent#handleDrop ', dragId, '->', node.id)
 
     // external validator
 
-    if(this.validateDropRulesWrapper(dragId,node.id)){
+    if (this.validateDropRulesWrapper(dragId, node.id)) {
        console.log('moving ...')
        this.database.moveCard(dragId, node.id)
 
@@ -139,9 +140,9 @@ export class ColumnComponentComponent implements OnInit {
 
 
        const statusChange = {
-         src:fromColumn,
-         dst:toColumn,
-         elem:movedCard
+         src: fromColumn,
+         dst: toColumn,
+         elem: movedCard
        } as IStatusChange;
 
        console.log('emitting statusChange: ', statusChange)
@@ -153,22 +154,22 @@ export class ColumnComponentComponent implements OnInit {
   }
 
 
-onColumnButtonClick(column){
+onColumnButtonClick(column) {
   console.log('ColumnComponent#onColumnButtonClick_AddCard ' , column.id)
-  const c:Card = this.database.addCardRefColumn(column.id)
+  const c: Card = this.database.addCardRefColumn(column.id)
   this.onAddCard.emit(c)
 }
 
-onColumnButtonClickRemove(column){
+onColumnButtonClickRemove(column) {
   console.log('ColumnComponent#onColumnButtonClick' , column.id)
-  const removedColumn :Column = this.database.removeColumn(column.id)
+  const removedColumn: Column = this.database.removeColumn(column.id)
   this.onRemoveColumn.emit(removedColumn)
 
 }
 
 
-extractDragSourceId(event):string{
-  return event.dataTransfer.types.find(entry => entry.includes("id=")).substr(3);
+extractDragSourceId(event): string {
+  return event.dataTransfer.types.find(entry => entry.includes('id=')).substr(3);
 }
 
 
