@@ -17,6 +17,9 @@ Functionality
 - Columns having defined sequence of following on Board;
 - Draggable Cards between columns;
 - Rules describing Drag and Drop permissions are provided as Callback at embedding component side;
+- During Card move with Drag and Drop Column changes his color if card cannot be allowed to move under current Column. 
+  Color is changed temporarily to red to signal used Drag will not be successful if landed under this Column. 
+  Permission Callback should be updated to manage rules.
 - Column title editable;
 - Click on column title emitting event;
 - Cards can be added; Event emitted and Data updated.
