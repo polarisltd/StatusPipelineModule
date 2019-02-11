@@ -17,7 +17,6 @@ export class Database {
 
   constructor(boardSubject$: Subject<Board>,
               board: Board) {
-    console.log('Database# constructor{}')
     this.boardSubject$ = boardSubject$;
     this.boardInternal = board;
   }
@@ -82,15 +81,11 @@ public getBoardObservable(): Observable<Board> {
   /** drag n drop support. Move card to different column */
   moveCard(cardId, targetColumnId) {
 
-    console.log('moveCard boardInternal', this.boardInternal)
-
     const card: Card = this.boardInternal.cards.find(c => c.id === cardId)
 
     const idxC = this.boardInternal.cards.indexOf(card)
 
     this.boardInternal.cards[idxC].columnId = targetColumnId;
-
-    console.log('moving card->column ', this.boardInternal.cards[idxC].id, ' -> ', this.boardInternal.cards[idxC].columnId)
 
     this.boardSubject$.next(this.boardInternal);
 

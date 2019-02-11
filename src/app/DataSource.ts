@@ -125,7 +125,6 @@ export class DataSource  {
     constructor() {
 
        this.boardSubject$ = new BehaviorSubject<Board>(this.dataSource);
-       console.log('DataSource#ngOnInit')
 
     }
 

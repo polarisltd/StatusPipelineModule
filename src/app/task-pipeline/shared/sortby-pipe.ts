@@ -5,7 +5,6 @@ import {Column} from './column';
 @Pipe({name: 'sort'})
 export class ColumnsSortPipe implements PipeTransform {
     transform(array: Array<Column>): Array<Column> {
-        console.log('pipe-sorting')
         if (!Array.isArray(array)) {
             return;
         }

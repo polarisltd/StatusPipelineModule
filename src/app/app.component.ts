@@ -6,8 +6,6 @@ import {DataSource} from './DataSource';
 import {IPipelineColumn, IPipelineColumnElement, IStatusChange
 } from './task-pipeline/shared/status-pipeline-module.interface';
 
-
-
 /* tslint:disable */
 @Component({
   selector: 'my-app',
@@ -58,8 +56,6 @@ export class AppComponent implements OnInit {
   /** Actual validation function */
   validateDropRules(statusChange: IStatusChange): boolean {
 
-    console.log('app.component#validateDragRules  ', statusChange)
-
     return (this.ALLOWED_TRANSITIONS.filter(
 
         elem => elem[0] === statusChange.src.id &&
@@ -72,7 +68,6 @@ export class AppComponent implements OnInit {
   showMessage(prefix: string, value: string) {
 
       this.messageArea =  prefix + JSON.stringify(value)
-      console.log('=>', this.messageArea)
       setTimeout(() => {
           this.messageArea = 'Demo events.'
       }, 10000);

@@ -1,7 +1,6 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 // tslint:disable-next-line:import-blacklist
 import {Observable, Subject} from 'rxjs';
-import {Database} from '../shared/status-pipeline-module.database';
 import {
   IPipelineColumn,
   IPipelineColumnElement,
@@ -9,7 +8,6 @@ import {
 } from '../shared/status-pipeline-module.interface';
 import {Board} from '../shared/board';
 import {StatusPipelineShared} from '../shared/status-pipeline-shared';
-
 
 @Component({
   selector: 'dvtx-status-pipeline',
@@ -35,17 +33,12 @@ export class BoardComponentComponent implements OnInit {
   editingTilte = false;
   currentTitle: string;
 
-  constructor(
-     statusPipelineShared: StatusPipelineShared ) {
-
-
-
+  constructor() {
   }
 
   ngOnInit() {
     this.board$ = this.boardSubject$
     this.board$.subscribe(board => {
-      console.log('BoardComponent#constructor subscribe board$ {}'/*,JSON.stringify(data,null,'\t')*/)
       this.board = board
     })
   }
