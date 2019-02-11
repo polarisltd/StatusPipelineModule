@@ -15,6 +15,7 @@ Functionality
 
 - Board is built dynamically based on above data model;
 - Columns having defined sequence of following on Board;
+- Columns having Color attribute. Fixed number of colors associated to markup styles are provided.
 - Draggable Cards between columns;
 - Rules describing Drag and Drop permissions are provided as Callback at embedding component side;
 - During Card move with Drag and Drop Column changes his color if card cannot be allowed to move under current Column. 
@@ -280,8 +281,14 @@ cd <project_dir>
 git init .
 git clone https://github.com/polarisltd/StatusPipelineModule.git
 
+# check for lint issues
+ng lint
+
+# Make build to ensure codebase is healthy
+ng build
+
 ng install
-ng serve -o
+ng serve -o 
 ```
 
 
